@@ -2,6 +2,11 @@ package service;
 
 import entity.Doctor;
 import entity.TimeSlot;
+import org.joda.time.Interval;
+
+import java.util.TreeSet;
+
+import static handler.ParameterHandler.checkArgs;
 
 public class DoctorService {
 
@@ -19,14 +24,41 @@ public class DoctorService {
      *         - false if any of the upper conditions is false.
      */
     public boolean addTimeSlot(TimeSlot slot){
-        return !checkIfOverlaps(slot) && this.doctor.getTimeSlots().add(slot);
+        return !checkIfOverlapsSet(slot) &&
+                slotSatisfiesDoctorConfig(slot) &&
+                this.doctor.getTimeSlots().add(slot);
+    }
+
+    /**
+     * Generates free time periods that satisfy needed slot duration
+     * @param slot Needed slot that is used to generate further
+     * @return free time intervals
+     */
+    public TreeSet<TimeSlot> getFreeSlots(TimeSlot slot){
+        TreeSet<TimeSlot> resultSlots = new TreeSet<>();
+        resultSlots.add(new TimeSlot(doctor.getTimeSlots().last().getEndTime(),
+                                     doctor.getEndOfWork()));
+        for (TimeSlot current: doctor.getTimeSlots().descendingSet()){
+            if (current.overlaps(slot)) break;
+            TimeSlot freeTime = new TimeSlot(doctor.getTimeSlots().lower(current).getEndTime(),
+                                                                   current.getStartTime());
+            if (slotSatisfiesDoctorConfig(freeTime)) resultSlots.add(freeTime);
+        }
+        return resultSlots;
+    }
+
+    public boolean slotSatisfiesDoctorConfig(TimeSlot slot){
+        Interval slotInterval = new Interval(slot.getStartTime(), slot.getEndTime());
+        if (slotInterval.toDurationMillis() == 0) return false;
+        return doctor.isMaxDurationChangeable() || doctor.getMaxDurationOfAppointment() >= slot.getDuration() &&
+                                                                slotInterval.abuts(this.doctor.getWorkInterval());
     }
 
     public boolean removeTimeSlot(TimeSlot slot){
         return this.doctor.removeTimeSlot(slot);
     }
 
-    public boolean checkIfOverlaps(TimeSlot slot){
+    private boolean checkIfOverlapsSet(TimeSlot slot){
         return this.doctor.getTimeSlots().stream().anyMatch(x -> x.overlaps(slot));
     }
 }

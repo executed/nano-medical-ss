@@ -2,6 +2,7 @@ package entity;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeComparator;
+import org.joda.time.Duration;
 import org.joda.time.Interval;
 
 import java.util.Comparator;
@@ -35,6 +36,10 @@ public class TimeSlot implements Comparable<TimeSlot>{
 
     public Interval getInterval(){
         return new Interval(this.startTime, this.endTime);
+    }
+
+    public int getDuration(){
+        return (int) new Duration(this.startTime, this.endTime).getStandardMinutes();
     }
 
     public boolean overlaps(TimeSlot slot){

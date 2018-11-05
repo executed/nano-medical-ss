@@ -2,6 +2,7 @@ package entity;
 
 import configuration.DoctorConfiguration;
 import org.joda.time.DateTime;
+import org.joda.time.Interval;
 import service.DoctorService;
 
 import java.util.TreeSet;
@@ -39,6 +40,10 @@ public class Doctor {
     public DateTime getStartOfWork(){ return this.configuration.getStartOfWork(); }
 
     public DateTime getEndOfWork(){ return this.configuration.getEndOfWork(); }
+
+    public Interval getWorkInterval(){
+        return new Interval(this.getStartOfWork(), this.getEndOfWork());
+    }
 
     public int getMaxDurationOfAppointment(){
         return this.configuration.getMaxDurationOfAppointment();

@@ -1,5 +1,7 @@
 package handler;
 
+import entity.TimeSlot;
+import exception.TimeSlotHandleException;
 import org.joda.time.DateTime;
 
 public final class ParameterHandler {
@@ -16,6 +18,15 @@ public final class ParameterHandler {
     public static void checkArgs(DateTime ... dateTimes){
         for (DateTime dateTime: dateTimes){
             if (dateTime == null) throw new NullPointerException("DateTime is null");
+        }
+    }
+
+    public static void checkArgs(TimeSlot... timeSlots){
+        for (TimeSlot slot: timeSlots){
+            if (slot == null) throw new NullPointerException("TimeSlot is null");
+            if (slot.getStartTime() == null || slot.getEndTime() == null){
+                throw new TimeSlotHandleException("One of the required fields is empty", 101);
+            }
         }
     }
 }
