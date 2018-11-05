@@ -46,6 +46,12 @@ public class TimeSlot implements Comparable<TimeSlot>{
         return this.getInterval().overlaps(slot.getInterval());
     }
 
+    public boolean contains(TimeSlot slot){
+        int resultStartTime = this.startTime.compareTo(slot.startTime);
+        int resultEndTime = this.endTime.compareTo(slot.endTime);
+        return resultStartTime <= 0 && resultEndTime >= 0;
+    }
+
     @Override
     public int compareTo(TimeSlot comparable) {
         int result1 = this.startTime.compareTo(comparable.startTime);

@@ -2,6 +2,7 @@ package service;
 
 import entity.Doctor;
 import entity.TimeSlot;
+import exception.DoctorWorkTimeException;
 import org.joda.time.Interval;
 
 import java.util.TreeSet;
@@ -35,30 +36,45 @@ public class DoctorService {
      * @return free time intervals
      */
     public TreeSet<TimeSlot> getFreeSlots(TimeSlot slot){
+        if (!checkIfOverlapsSet(slot)) throw new IllegalArgumentException("TimeSlot doesn't overlap any of the set");
         TreeSet<TimeSlot> resultSlots = new TreeSet<>();
         resultSlots.add(new TimeSlot(doctor.getTimeSlots().last().getEndTime(),
                                      doctor.getEndOfWork()));
         for (TimeSlot current: doctor.getTimeSlots().descendingSet()){
-            if (current.overlaps(slot)) break;
+            if (current.overlaps(slot) || doctor.getTimeSlots().lower(current) == null) break;
             TimeSlot freeTime = new TimeSlot(doctor.getTimeSlots().lower(current).getEndTime(),
                                                                    current.getStartTime());
-            if (slotSatisfiesDoctorConfig(freeTime)) resultSlots.add(freeTime);
+            if (freeTime.getInterval().toDurationMillis() != 0) resultSlots.add(freeTime);
         }
         return resultSlots;
     }
 
+    /**
+     * Checks if slot duration isn't 0, if duration is lower than max duration,
+     * if slot time matches doctor work time.
+     * @param slot checked slot
+     * @return true if all described checks are true, else false
+     */
     public boolean slotSatisfiesDoctorConfig(TimeSlot slot){
-        Interval slotInterval = new Interval(slot.getStartTime(), slot.getEndTime());
+        Interval slotInterval = slot.getInterval();
         if (slotInterval.toDurationMillis() == 0) return false;
-        return doctor.isMaxDurationChangeable() || doctor.getMaxDurationOfAppointment() >= slot.getDuration() &&
-                                                                slotInterval.abuts(this.doctor.getWorkInterval());
+        if (!withinWorkTime(slot)) throw new DoctorWorkTimeException("Doctor doesn't work at this time", 101);
+        return doctor.isMaxDurationChangeable() || withinMaxDurationOfAppointment(slot);
     }
 
     public boolean removeTimeSlot(TimeSlot slot){
-        return this.doctor.removeTimeSlot(slot);
+        return this.doctor.getTimeSlots().remove(slot);
     }
 
     private boolean checkIfOverlapsSet(TimeSlot slot){
         return this.doctor.getTimeSlots().stream().anyMatch(x -> x.overlaps(slot));
+    }
+
+    private boolean withinWorkTime(TimeSlot slot){
+        return new TimeSlot(doctor.getStartOfWork(), doctor.getEndOfWork()).contains(slot);
+    }
+
+    private boolean withinMaxDurationOfAppointment(TimeSlot slot){
+        return doctor.getMaxDurationOfAppointment() >= slot.getDuration();
     }
 }

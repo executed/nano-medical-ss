@@ -20,14 +20,12 @@ public class Doctor {
     private final UUID id = UUID.randomUUID();
     private String fullName;
     private DoctorConfiguration configuration;
-    private DoctorService service;
     private TreeSet<TimeSlot> timeSlots;
 
     //initialization fields
     {
         this.configuration = new DoctorConfiguration(this);
         timeSlots = new TreeSet<>();
-        service = new DoctorService(this);
     }
 
     private Doctor(){ }
@@ -58,7 +56,7 @@ public class Doctor {
     public TreeSet<TimeSlot> getTimeSlots(){ return this.timeSlots; }
 
     public boolean addTimeSlot(TimeSlot slot){
-        return this.service.addTimeSlot(slot);
+        return this.timeSlots.add(slot);
     }
 
     public boolean removeTimeSlot(TimeSlot slot){
