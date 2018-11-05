@@ -2,7 +2,9 @@ package entity;
 
 import configuration.DoctorConfiguration;
 import org.joda.time.DateTime;
+import service.DoctorService;
 
+import java.util.TreeSet;
 import java.util.UUID;
 
 import static service.DateTimeService.parseDateTime;
@@ -17,10 +19,14 @@ public class Doctor {
     private final UUID id = UUID.randomUUID();
     private String fullName;
     private DoctorConfiguration configuration;
+    private DoctorService service;
+    private TreeSet<TimeSlot> timeSlots;
 
     //initialization fields
     {
         this.configuration = new DoctorConfiguration(this);
+        timeSlots = new TreeSet<>();
+        service = new DoctorService(this);
     }
 
     private Doctor(){ }
@@ -43,6 +49,16 @@ public class Doctor {
     }
 
     public DoctorConfiguration getConfiguration() { return this.configuration; }
+
+    public TreeSet<TimeSlot> getTimeSlots(){ return this.timeSlots; }
+
+    public boolean addTimeSlot(TimeSlot slot){
+        return this.service.addTimeSlot(slot);
+    }
+
+    public boolean removeTimeSlot(TimeSlot slot){
+        return this.timeSlots.remove(slot);
+    }
 
     /**
      *  Static inner class created as util to work with Doctor entity.
@@ -78,7 +94,7 @@ public class Doctor {
             return this;
         }
 
-        public DoctorBuilder setMaxAppointmentDurationChangeable(boolean status){
+        public DoctorBuilder setMaxDurationOfAppointmentChangeable(boolean status){
             this.doctor.configuration.setMaxDurationChangeable(status);
             return this;
         }
