@@ -2,7 +2,7 @@ package exception;
 
 public class NoOverlapException extends RuntimeException{
 
-    int code;
+    private final int code;
 
     public NoOverlapException(String message, int code){
         super(message);

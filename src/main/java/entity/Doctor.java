@@ -3,7 +3,6 @@ package entity;
 import configuration.DoctorConfiguration;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
-import service.DoctorService;
 
 import java.util.TreeSet;
 import java.util.UUID;

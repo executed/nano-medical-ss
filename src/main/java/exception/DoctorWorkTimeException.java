@@ -2,7 +2,7 @@ package exception;
 
 public class DoctorWorkTimeException extends RuntimeException{
 
-    private int code;
+    private final int code;
 
     public DoctorWorkTimeException(String message, int code){
         super(message);

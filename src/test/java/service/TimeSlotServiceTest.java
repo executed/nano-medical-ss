@@ -1,8 +1,6 @@
 package service;
 
-import constant.STR_CONSTANT;
 import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 

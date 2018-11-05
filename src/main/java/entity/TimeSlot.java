@@ -1,11 +1,9 @@
 package entity;
 
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeComparator;
 import org.joda.time.Duration;
 import org.joda.time.Interval;
 
-import java.util.Comparator;
 import java.util.Objects;
 
 import static service.TimeSlotService.parseTimeBounds;
@@ -13,8 +11,8 @@ import static handler.ParameterHandler.checkArgs;
 
 public class TimeSlot implements Comparable<TimeSlot>{
 
-    private DateTime startTime;
-    private DateTime endTime;
+    private final DateTime startTime;
+    private final DateTime endTime;
 
     /** Sets time bounds */
     public TimeSlot(DateTime startTime, DateTime endTime){

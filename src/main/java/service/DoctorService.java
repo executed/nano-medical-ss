@@ -7,11 +7,9 @@ import org.joda.time.Interval;
 
 import java.util.TreeSet;
 
-import static handler.ParameterHandler.checkArgs;
-
 public class DoctorService {
 
-    private Doctor doctor;
+    private final Doctor doctor;
 
     public DoctorService(Doctor doctor){
         this.doctor = doctor;
@@ -25,7 +23,7 @@ public class DoctorService {
      *         - false if any of the upper conditions is false.
      */
     public boolean addTimeSlot(TimeSlot slot){
-        return !checkIfOverlapsSet(slot) &&
+        return checkIfNotOverlapsSet(slot) &&
                 slotSatisfiesDoctorConfig(slot) &&
                 this.doctor.getTimeSlots().add(slot);
     }
@@ -36,7 +34,7 @@ public class DoctorService {
      * @return free time intervals
      */
     public TreeSet<TimeSlot> getFreeSlots(TimeSlot slot){
-        if (!checkIfOverlapsSet(slot)) throw new IllegalArgumentException("TimeSlot doesn't overlap any of the set");
+        if (checkIfNotOverlapsSet(slot)) throw new IllegalArgumentException("TimeSlot doesn't overlap any of the set");
         TreeSet<TimeSlot> resultSlots = new TreeSet<>();
         resultSlots.add(new TimeSlot(doctor.getTimeSlots().last().getEndTime(),
                                      doctor.getEndOfWork()));
@@ -66,8 +64,8 @@ public class DoctorService {
         return this.doctor.getTimeSlots().remove(slot);
     }
 
-    private boolean checkIfOverlapsSet(TimeSlot slot){
-        return this.doctor.getTimeSlots().stream().anyMatch(x -> x.overlaps(slot));
+    private boolean checkIfNotOverlapsSet(TimeSlot slot){
+        return !this.doctor.getTimeSlots().stream().anyMatch(x -> x.overlaps(slot));
     }
 
     private boolean withinWorkTime(TimeSlot slot){

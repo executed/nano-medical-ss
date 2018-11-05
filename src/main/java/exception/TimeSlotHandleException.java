@@ -2,7 +2,7 @@ package exception;
 
 public class TimeSlotHandleException extends RuntimeException{
 
-    private int code;
+    private final int code;
 
     public TimeSlotHandleException(String message, int code){
         super(message);
