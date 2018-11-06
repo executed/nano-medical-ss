@@ -3,6 +3,7 @@ package dao;
 import entity.Client;
 import entity.Client.ClientBuilder;
 import org.apache.logging.log4j.Logger;
+import utility.SqlQueryUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,6 +14,7 @@ import java.util.UUID;
 
 import static org.apache.logging.log4j.LogManager.getLogger;
 import static utility.ClassNameUtil.getClassName;
+import static utility.SqlQueryUtil.getQuery;
 
 public class ClientDao {
 
@@ -21,12 +23,6 @@ public class ClientDao {
 
     private static final Logger LOGGER = getLogger(getClassName());
 
-    private final String insertQuery = "INSERT INTO client (full_name) VALUES (?);";
-    private final String updateQuery = "UPDATE client SET full_name = ? WHERE id = ?;";
-    private final String selectQuery = "SELECT * FROM client WHERE id = ?;";
-    private final String selectAllQuery = "SELECT * FROM client;";
-    private final String deleteQuery = "DELETE FROM client WHERE id = ?;";
-
     public ClientDao(Dao dao){
         this.dao = dao;
         this.connection = dao.getConnection();
@@ -34,36 +30,36 @@ public class ClientDao {
 
     public void save(Client client){
         if (client.getId() != null){ update(client); return; }
-        LOGGER.debug("Started saving "+client+" in database.");
+        LOGGER.debug("Started saving " + client + " in database.");
         try {
-            PreparedStatement statement = connection.prepareStatement(insertQuery);
+            PreparedStatement statement = connection.prepareStatement(getQuery("client.insert"));
             statement.setString(1, client.getFullName());
             statement.executeUpdate();
         } catch (SQLException e) {
             LOGGER.info("Client " + client + " wasn't saved to database", e);
         }
-        LOGGER.debug("Client "+client+" saved successfully.");
+        LOGGER.debug("Client " + client + " saved successfully.");
     }
 
     public void update(Client client){
         if (client.getId() == null){ save(client); return; }
-        LOGGER.debug("Started updating "+client+" in database.");
+        LOGGER.debug("Started updating " + client + " in database.");
         try {
-            PreparedStatement statement = connection.prepareStatement(updateQuery);
+            PreparedStatement statement = connection.prepareStatement(getQuery("client.update"));
             statement.setString(1, client.getFullName());
             statement.setObject(2, client.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
             LOGGER.info("Client " + client + " wasn't updated in database", e);
         }
-        LOGGER.debug("Client "+client+" updated successfully.");
+        LOGGER.debug("Client " + client + " updated successfully.");
     }
 
     public Client getById(UUID id){
         Client client = null;
-        LOGGER.debug("Started getting client by id "+id+" from database.");
+        LOGGER.debug("Started getting client by id " + id + " from database.");
         try {
-            PreparedStatement statement = connection.prepareStatement(selectQuery);
+            PreparedStatement statement = connection.prepareStatement(getQuery("client.select"));
             statement.setObject(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.first()){
@@ -74,7 +70,7 @@ public class ClientDao {
         } catch (SQLException e) {
             LOGGER.info("Client wiht id " + id + " wasn't found in database", e);
         }
-        LOGGER.debug("Client with id "+id+" get successfully.");
+        LOGGER.debug("Client with id " + id + " get successfully.");
         return client;
     }
 
@@ -82,7 +78,7 @@ public class ClientDao {
         HashSet<Client> clients = new HashSet<>();
         LOGGER.debug("Started getting all clients from database.");
         try {
-            ResultSet resultSet = connection.createStatement().executeQuery(selectAllQuery);
+            ResultSet resultSet = connection.createStatement().executeQuery(getQuery("client.selectAll"));
             while(resultSet.next()){
                 clients.add(new ClientBuilder().setId((UUID) resultSet.getObject("id"))
                                                .setFullName(resultSet.getString("full_name"))
@@ -96,13 +92,13 @@ public class ClientDao {
     }
 
     public void deleteById(UUID id){
-        LOGGER.debug("Started deleting client with id"+id+" from database.");
+        LOGGER.debug("Started deleting client with id" + id + " from database.");
         try {
-            int status = connection.createStatement().executeUpdate(deleteQuery);
+            int status = connection.createStatement().executeUpdate(getQuery("client.delete"));
             if (status == 0) LOGGER.debug("No clients were affected while deleting");
         } catch (SQLException e) {
             LOGGER.info("Process of deleting client crashed.", e);
         }
-        LOGGER.debug("Client with id "+id+" deleted successfully");
+        LOGGER.debug("Client with id " + id + " deleted successfully");
     }
 }
