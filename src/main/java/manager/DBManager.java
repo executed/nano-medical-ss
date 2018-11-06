@@ -8,7 +8,7 @@ import java.sql.*;
 import static org.apache.logging.log4j.LogManager.getLogger;
 import static utility.ClassName.getClassName;
 
-public class DBManager {
+public class DBManager implements DataSourceManager<Connection>{
 
     private static final Logger LOGGER = getLogger(getClassName());
     private static DBManager ourInstance = new DBManager();
@@ -36,7 +36,6 @@ public class DBManager {
             LOGGER.info("Database started with params: "+url+", "+login+", "+password);
         } catch (ClassNotFoundException | SQLException e) {
             LOGGER.fatal("Connection to database wasn't established properly", e);
-            e.printStackTrace();
             System.exit(1);
         }
     }

@@ -16,7 +16,7 @@ import static service.DateTimeService.parseDateTime;
 public class Doctor {
 
     //fields
-    private final UUID id = UUID.randomUUID();
+    private UUID id;
     private String fullName;
     private DoctorConfiguration configuration;
     private TreeSet<TimeSlot> timeSlots;
@@ -74,6 +74,11 @@ public class Doctor {
         }
 
         public DoctorBuilder(Doctor doctor) { this.doctor = doctor; }
+
+        public DoctorBuilder setId(UUID uuid){
+            this.doctor.id = uuid;
+            return this;
+        }
 
         public DoctorBuilder setFullName(String fullName){
             this.doctor.fullName = fullName;
