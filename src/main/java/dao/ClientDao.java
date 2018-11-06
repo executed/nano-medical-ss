@@ -2,9 +2,7 @@ package dao;
 
 import entity.Client;
 import entity.Client.ClientBuilder;
-import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import utility.ClassName;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,7 +12,7 @@ import java.util.HashSet;
 import java.util.UUID;
 
 import static org.apache.logging.log4j.LogManager.getLogger;
-import static utility.ClassName.getClassName;
+import static utility.ClassNameUtil.getClassName;
 
 public class ClientDao {
 

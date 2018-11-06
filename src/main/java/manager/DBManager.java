@@ -6,7 +6,7 @@ import service.PropertiesService;
 import java.sql.*;
 
 import static org.apache.logging.log4j.LogManager.getLogger;
-import static utility.ClassName.getClassName;
+import static utility.ClassNameUtil.getClassName;
 
 public class DBManager implements DataSourceManager<Connection>{
 

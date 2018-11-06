@@ -1,17 +1,14 @@
 package service;
 
-import constant.STR_CONSTANT;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import utility.ClassName;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 
 import static constant.STR_CONSTANT.PATH_PROPERTIES;
-import static utility.ClassName.getClassName;
+import static utility.ClassNameUtil.getClassName;
 
 public class PropertiesService {
 

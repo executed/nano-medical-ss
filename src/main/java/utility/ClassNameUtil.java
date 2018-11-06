@@ -1,6 +1,6 @@
 package utility;
 
-public class ClassName {
+public class ClassNameUtil {
 
     public static String getClassName(){
         try {
