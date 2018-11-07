@@ -4,12 +4,13 @@ import org.joda.time.DateTime;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import static constant.STR_CONSTANT.FORMATTER_TIME_PATTERN_DEF;
 import static org.joda.time.format.DateTimeFormat.forPattern;
 import static org.testng.Assert.*;
 import static service.TimeSlotService.parseTimeBounds;
 
 public class TimeSlotServiceTest {
+
+    private static final String FORMATTER_TIME_PATTERN_DEF = "dd/MM/yyyy HH:mm";
 
     @DataProvider
     public static Object[][] parseTimeBoundsProvider() {

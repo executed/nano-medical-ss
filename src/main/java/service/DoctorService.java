@@ -1,6 +1,6 @@
 package service;
 
-import constant.STR_CONSTANT;
+import constant.LOG_MSG_CONSTANT;
 import entity.Doctor;
 import entity.TimeSlot;
 import exception.DoctorWorkTimeException;
@@ -8,12 +8,13 @@ import exception.NoOverlapException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.joda.time.Interval;
-import utility.ClassNameUtil;
 
 import java.util.TreeSet;
 
-import static constant.STR_CONSTANT.DOC_WORKTIME_EXC;
-import static constant.STR_CONSTANT.NO_OVERLAP_EXC;
+import static constant.EXCEPTION_MSG_CONSTANT.DOCTOR_WORKTIME;
+import static constant.EXCEPTION_MSG_CONSTANT.NO_OVERLAP;
+import static constant.LOG_MSG_CONSTANT.DOC_S_ADD_STATUS;
+import static constant.LOG_MSG_CONSTANT.DOC_S_FREE_SLOTS_INFO;
 import static utility.ClassNameUtil.getClassName;
 
 public class DoctorService {
@@ -36,7 +37,7 @@ public class DoctorService {
         boolean status = checkIfNotOverlapsSet(slot) &&
                          slotSatisfiesDoctorConfig(slot) &&
                          this.doctor.getTimeSlots().add(slot);
-        LOGGER.trace("Time slot {} adding status: {}", slot, status);
+        LOGGER.trace(DOC_S_ADD_STATUS, slot, status);
         return status;
     }
 
@@ -46,7 +47,7 @@ public class DoctorService {
      * @return free time intervals
      */
     public TreeSet<TimeSlot> getFreeSlots(TimeSlot slot) throws NoOverlapException {
-        if (checkIfNotOverlapsSet(slot)) throw new NoOverlapException(NO_OVERLAP_EXC, 101);
+        if (checkIfNotOverlapsSet(slot)) throw new NoOverlapException(NO_OVERLAP, 101);
         TreeSet<TimeSlot> resultSlots = new TreeSet<>();
         resultSlots.add(new TimeSlot(doctor.getTimeSlots().last().getEndTime(),
                                      doctor.getEndOfWork()));
@@ -56,7 +57,7 @@ public class DoctorService {
                                                                    current.getStartTime());
             if (freeTime.getInterval().toDurationMillis() != 0) resultSlots.add(freeTime);
         }
-        LOGGER.trace("Doctor {}: free slots: {}", doctor, resultSlots.size());
+        LOGGER.trace(DOC_S_FREE_SLOTS_INFO, doctor, resultSlots.size());
         return resultSlots;
     }
 
@@ -69,7 +70,7 @@ public class DoctorService {
     public boolean slotSatisfiesDoctorConfig(TimeSlot slot) throws DoctorWorkTimeException{
         Interval slotInterval = slot.getInterval();
         if (slotInterval.toDurationMillis() == 0) return false;
-        if (!withinWorkTime(slot)) throw new DoctorWorkTimeException(DOC_WORKTIME_EXC, 101);
+        if (!withinWorkTime(slot)) throw new DoctorWorkTimeException(DOCTOR_WORKTIME, 101);
         return doctor.isMaxDurationChangeable() || withinMaxDurationOfAppointment(slot);
     }
 

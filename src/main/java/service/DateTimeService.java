@@ -3,13 +3,12 @@ package service;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 
-import static constant.STR_CONSTANT.FORMATTER_TIME_PATTERN_DEF;
 import static handler.ParameterHandler.checkArgs;
 import static org.joda.time.format.DateTimeFormat.forPattern;
 
 public final class DateTimeService {
 
-    private static final DateTimeFormatter FORMATTER_DEF = forPattern(FORMATTER_TIME_PATTERN_DEF);
+    private static final DateTimeFormatter FORMATTER_DEF = forPattern("dd/MM/yyyy HH:mm");
 
     /**
      * Converts string to DateTime instance.

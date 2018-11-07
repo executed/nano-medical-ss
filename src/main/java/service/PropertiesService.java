@@ -1,5 +1,6 @@
 package service;
 
+import constant.LOG_MSG_CONSTANT;
 import org.apache.logging.log4j.Logger;
 
 import java.io.FileInputStream;
@@ -7,8 +8,11 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Properties;
 
-import static constant.STR_CONSTANT.PATH_PROPERTIES;
-import static constant.STR_CONSTANT.PATH_SQL_QUERIES;
+import static constant.LOG_MSG_CONSTANT.PROP_INIT;
+import static constant.LOG_MSG_CONSTANT.PROP_INIT_FAIL;
+import static constant.LOG_MSG_CONSTANT.PROP_INIT_OK;
+import static constant.PATH_CONSTANT.PROPERTIES;
+import static constant.PATH_CONSTANT.SQL_QUERIES;
 import static org.apache.logging.log4j.LogManager.getLogger;
 import static service.PropertiesService.Type.*;
 import static utility.ClassNameUtil.getClassName;
@@ -21,14 +25,14 @@ public class PropertiesService {
 
     private static HashMap<Type, Properties> propertyMap = new HashMap<>();
     private static HashMap<Type, String> typePathMap = new HashMap<Type, String>(){{
-        put(DEFAULT, PATH_PROPERTIES);
-        put(SQL_QUERY, PATH_SQL_QUERIES);
+        put(DEFAULT, PROPERTIES);
+        put(SQL_QUERY, SQL_QUERIES);
     }};
 
     static {
-        LOGGER.trace("Started property files initialization");
+        LOGGER.trace(PROP_INIT);
         typePathMap.forEach((x, y) -> propertyMap.put(x, loadProperties(y)));
-        LOGGER.info("Property files initialization success");
+        LOGGER.info(PROP_INIT_OK);
     }
 
     public static String getPropertyByKey(String key){
@@ -46,7 +50,7 @@ public class PropertiesService {
             property.load(inputStream);
         }
         catch (IOException e) {
-            LOGGER.error("Property file wasn't loaded: " + path, e);
+            LOGGER.error(PROP_INIT_FAIL, path, e);
         }
         return property;
     }

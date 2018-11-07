@@ -1,4 +1,4 @@
 package constant;
 
-public final class INT_CONSTANT implements IConstant{
+public final class INT_CONSTANT{
 }
