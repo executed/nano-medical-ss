@@ -4,6 +4,7 @@ import entity.Doctor;
 import entity.Doctor.DoctorBuilder;
 import entity.TimeSlot;
 import exception.DoctorWorkTimeException;
+import exception.NoOverlapException;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
@@ -63,7 +64,7 @@ public class DoctorServiceTest {
     }
 
     @Test(dataProvider = "parseTimeBoundsProvider")
-    public void addTimeSlotTest(TimeSlot timeSlot, boolean expectedValue){
+    public void addTimeSlotTest(TimeSlot timeSlot, boolean expectedValue) throws DoctorWorkTimeException {
         assertEquals(doctorService.addTimeSlot(timeSlot), expectedValue);
     }
 
@@ -75,7 +76,7 @@ public class DoctorServiceTest {
 
 
     @Test(dataProvider = "getFreeSlotsProvider")
-    public void getFreeSlotsTest(TimeSlot neededSlot, TreeSet<TimeSlot> expectedSlots){
+    public void getFreeSlotsTest(TimeSlot neededSlot, TreeSet<TimeSlot> expectedSlots) throws NoOverlapException {
         TreeSet<TimeSlot> resultSlots = doctorService.getFreeSlots(neededSlot);
         assertEquals(resultSlots, expectedSlots);
     }
@@ -83,7 +84,7 @@ public class DoctorServiceTest {
     @Test
     public void getFreeSlotsNegativeTest(){
         TimeSlot neededSlot = new TimeSlot("06:00", "06:15");
-        assertThrows(IllegalArgumentException.class, () -> doctorService.getFreeSlots(neededSlot));
+        assertThrows(NoOverlapException.class, () -> doctorService.getFreeSlots(neededSlot));
     }
 
     @Test(dataProvider = "removeTimeSlotProvider")

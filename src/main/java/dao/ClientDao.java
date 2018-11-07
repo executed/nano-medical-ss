@@ -3,7 +3,6 @@ package dao;
 import entity.Client;
 import entity.Client.ClientBuilder;
 import org.apache.logging.log4j.Logger;
-import utility.SqlQueryUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -33,7 +32,8 @@ public class ClientDao {
         LOGGER.trace("Started saving client {} in database.", client);
         try {
             PreparedStatement statement = connection.prepareStatement(getQuery("client.insert"));
-            statement.setString(1, client.getFullName());
+            statement.setString(1, client.getFirstName());
+            statement.setString(2, client.getLastName());
             statement.executeUpdate();
         } catch (SQLException e) {
             LOGGER.warn("Client {} wasn't saved to database", client, e);
@@ -46,8 +46,9 @@ public class ClientDao {
         LOGGER.trace("Started updating client {} in database.", client);
         try {
             PreparedStatement statement = connection.prepareStatement(getQuery("client.update"));
-            statement.setString(1, client.getFullName());
-            statement.setObject(2, client.getId());
+            statement.setString(1, client.getFirstName());
+            statement.setString(2, client.getLastName());
+            statement.setObject(3, client.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
             LOGGER.warn("Client {} wasn't updated in database", client, e);
@@ -64,7 +65,8 @@ public class ClientDao {
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.first()){
                 client = new ClientBuilder().setId(id)
-                                            .setFullName(resultSet.getString("full_name"))
+                                            .setFirstName(resultSet.getString("first_name"))
+                                            .setLastName(resultSet.getString("last_name"))
                                             .build();
             }
         } catch (SQLException e) {
@@ -81,7 +83,8 @@ public class ClientDao {
             ResultSet resultSet = connection.createStatement().executeQuery(getQuery("client.selectAll"));
             while(resultSet.next()){
                 clients.add(new ClientBuilder().setId((UUID) resultSet.getObject("id"))
-                                               .setFullName(resultSet.getString("full_name"))
+                                               .setFirstName(resultSet.getString("first_name"))
+                                               .setLastName(resultSet.getString("last_name"))
                                                .build());
             }
         } catch (SQLException e) {

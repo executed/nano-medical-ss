@@ -17,7 +17,8 @@ public class Doctor {
 
     //fields
     private UUID id;
-    private String fullName;
+    private String firstName;
+    private String lastName;
     private DoctorConfiguration configuration;
     private TreeSet<TimeSlot> timeSlots;
 
@@ -32,7 +33,9 @@ public class Doctor {
     //getters
     public UUID getId() { return this.id; }
 
-    public String getFullName(){ return this.fullName; }
+    public String getFirstName() { return this.firstName; }
+
+    public String getLastName() { return this.lastName; }
 
     public DateTime getStartOfWork(){ return this.configuration.getStartOfWork(); }
 
@@ -80,8 +83,13 @@ public class Doctor {
             return this;
         }
 
-        public DoctorBuilder setFullName(String fullName){
-            this.doctor.fullName = fullName;
+        public DoctorBuilder setFirstName(String name){
+            this.doctor.firstName = name;
+            return this;
+        }
+
+        public DoctorBuilder setLastName(String name){
+            this.doctor.lastName = name;
             return this;
         }
 

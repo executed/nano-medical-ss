@@ -3,47 +3,42 @@ package entity;
 import java.util.Objects;
 import java.util.TreeSet;
 import java.util.UUID;
-
+//TODO: Make setting of timeSlots as it is by Doctor
 public class Client {
 
     private UUID id;
-    private String fullName;
+    private String firstName;
+    private String lastName;
     private TreeSet<TimeSlot> timeSlots;
 
     public UUID getId() {
         return id;
     }
 
-    public String getFullName() {
-        return fullName;
-    }
+    public String getFirstName() { return this.firstName; }
 
-    public TreeSet<TimeSlot> getTimeSlots() {
-        return timeSlots;
-    }
+    public String getLastName() { return this.lastName; }
 
-    public void addTimeSlot(TimeSlot slot){
-        this.timeSlots.add(slot);
-    }
+    public TreeSet<TimeSlot> getTimeSlots() { return this.timeSlots; }
 
-    public void removeTimeSlot(TimeSlot slot){
-        this.timeSlots.remove(slot);
-    }
+    public void addTimeSlot(TimeSlot slot){ this.timeSlots.add(slot); }
+
+    public void removeTimeSlot(TimeSlot slot){ this.timeSlots.remove(slot); }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Client)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         Client client = (Client) o;
         return Objects.equals(id, client.id) &&
-                Objects.equals(fullName, client.fullName) &&
+                Objects.equals(firstName, client.firstName) &&
+                Objects.equals(lastName, client.lastName) &&
                 Objects.equals(timeSlots, client.timeSlots);
     }
 
     @Override
     public int hashCode() {
-
-        return Objects.hash(id, fullName);
+        return Objects.hash(id, firstName, lastName);
     }
 
     /**
@@ -64,8 +59,13 @@ public class Client {
             return this;
         }
 
-        public ClientBuilder setFullName(String fullName){
-            this.client.fullName = fullName;
+        public ClientBuilder setFirstName(String name){
+            this.client.firstName = name;
+            return this;
+        }
+
+        public ClientBuilder setLastName(String name){
+            this.client.lastName = name;
             return this;
         }
 
