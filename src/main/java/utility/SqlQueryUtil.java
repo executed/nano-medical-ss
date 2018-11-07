@@ -1,14 +1,11 @@
 package utility;
 
 import service.PropertiesService;
-
-import static constant.STR_CONSTANT.PATH_SQL_QUERIES;
+import service.PropertiesService.Type;
 
 public class SqlQueryUtil {
 
-    private static PropertiesService propertiesService = new PropertiesService();
-
     public static String getQuery(String key){
-        return propertiesService.getPropertyByKey(key, PATH_SQL_QUERIES);
+        return PropertiesService.getPropertyByKey(key, Type.SQL_QUERY);
     }
 }

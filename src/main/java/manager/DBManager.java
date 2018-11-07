@@ -6,6 +6,7 @@ import service.PropertiesService;
 import java.sql.*;
 
 import static org.apache.logging.log4j.LogManager.getLogger;
+import static service.PropertiesService.getPropertyByKey;
 import static utility.ClassNameUtil.getClassName;
 
 public class DBManager implements DataSourceManager<Connection>{
@@ -25,13 +26,12 @@ public class DBManager implements DataSourceManager<Connection>{
 
     public void initializeConnection() {
         LOGGER.info("Database initialization started");
-        PropertiesService properties = new PropertiesService();
-
         try {
-            Class.forName(properties.getPropertyByKey("db.classname"));
-            String url = properties.getPropertyByKey("db.url");
-            String login = properties.getPropertyByKey("db.login");
-            String password = properties.getPropertyByKey("db.password");
+            Class.forName(getPropertyByKey("db.classname"));
+            String url = getPropertyByKey("db.url");
+            String login = getPropertyByKey("db.login");
+            String password = getPropertyByKey("db.password");
+
             connection = DriverManager.getConnection(url, login, password);
             LOGGER.info("Database started with params: "+url+", "+login+", "+password);
         } catch (ClassNotFoundException | SQLException e) {

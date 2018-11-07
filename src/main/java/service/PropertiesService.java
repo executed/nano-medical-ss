@@ -1,50 +1,53 @@
 package service;
 
-import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 import java.util.Properties;
 
 import static constant.STR_CONSTANT.PATH_PROPERTIES;
+import static constant.STR_CONSTANT.PATH_SQL_QUERIES;
+import static org.apache.logging.log4j.LogManager.getLogger;
+import static service.PropertiesService.Type.DEFAULT;
 import static utility.ClassNameUtil.getClassName;
-//TODO: Make class singleton with different Property types
+
 public class PropertiesService {
 
-    private String configFilePath = PATH_PROPERTIES;
-    private Properties property;
-    private static Logger LOGGER = LogManager.getLogger(getClassName());
+    public enum Type { DEFAULT, SQL_QUERY }
 
-    public PropertiesService(){
-        loadProperties();
+    private static final Logger LOGGER = getLogger(getClassName());
+
+    private static HashMap<Type, Properties> propertyMap = new HashMap<>();
+    private static HashMap<Type, String> typePathMap = new HashMap<Type, String>(){{
+        put(DEFAULT, PATH_PROPERTIES);
+        put(Type.SQL_QUERY, PATH_SQL_QUERIES);
+    }};
+
+    static {
+        LOGGER.info("Started property files initialization");
+        typePathMap.forEach((x, y) -> propertyMap.put(x, loadProperties(y)));
+        LOGGER.info("Property files initialization success");
     }
 
-    public String getPropertyByKey(String key){ return property.getProperty(key); }
-
-    public String getPropertyByKey(String key, String configFilePath){
-
-        this.configFilePath = configFilePath;
-        loadProperties();
-        String keyValue = null;
-        try {
-            keyValue = new String(property.getProperty(key).getBytes("ISO8859-1"));
-        } catch (UnsupportedEncodingException e) {
-            LOGGER.info("Property wasn't loaded", e);
-        }
-        this.configFilePath = PATH_PROPERTIES;
-        return keyValue;
+    public static String getPropertyByKey(String key){
+        return propertyMap.get(DEFAULT).getProperty(key);
     }
 
-    private void loadProperties(){
-        if (property == null) property = new Properties();
+    public static String getPropertyByKey(String key, Type type){
+        return propertyMap.get(type).getProperty(key);
+    }
+
+    private static Properties loadProperties(String path){
+        Properties property = new Properties();
         try {
-            FileInputStream inputStream = new FileInputStream(configFilePath);
+            FileInputStream inputStream = new FileInputStream(path);
             property.load(inputStream);
         }
         catch (IOException e) {
-            LOGGER.error("Property file wasn't loaded", e);
+            LOGGER.error("Property file wasn't loaded: " + path, e);
         }
+        return property;
     }
 }
