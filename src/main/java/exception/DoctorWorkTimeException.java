@@ -1,6 +1,6 @@
 package exception;
 
-public class DoctorWorkTimeException extends RuntimeException{
+public class DoctorWorkTimeException extends Exception{
 
     private final int code;
 

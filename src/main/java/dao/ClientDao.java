@@ -30,34 +30,34 @@ public class ClientDao {
 
     public void save(Client client){
         if (client.getId() != null){ update(client); return; }
-        LOGGER.debug("Started saving " + client + " in database.");
+        LOGGER.trace("Started saving client {} in database.", client);
         try {
             PreparedStatement statement = connection.prepareStatement(getQuery("client.insert"));
             statement.setString(1, client.getFullName());
             statement.executeUpdate();
         } catch (SQLException e) {
-            LOGGER.info("Client " + client + " wasn't saved to database", e);
+            LOGGER.warn("Client {} wasn't saved to database", client, e);
         }
-        LOGGER.debug("Client " + client + " saved successfully.");
+        LOGGER.trace("Client {} saved successfully.", client);
     }
 
     public void update(Client client){
         if (client.getId() == null){ save(client); return; }
-        LOGGER.debug("Started updating " + client + " in database.");
+        LOGGER.trace("Started updating client {} in database.", client);
         try {
             PreparedStatement statement = connection.prepareStatement(getQuery("client.update"));
             statement.setString(1, client.getFullName());
             statement.setObject(2, client.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
-            LOGGER.info("Client " + client + " wasn't updated in database", e);
+            LOGGER.warn("Client {} wasn't updated in database", client, e);
         }
-        LOGGER.debug("Client " + client + " updated successfully.");
+        LOGGER.trace("Client {} updated successfully.", client);
     }
 
     public Client getById(UUID id){
         Client client = null;
-        LOGGER.debug("Started getting client by id " + id + " from database.");
+        LOGGER.trace("Started getting client by id {} from database.", id);
         try {
             PreparedStatement statement = connection.prepareStatement(getQuery("client.select"));
             statement.setObject(1, id);
@@ -68,15 +68,15 @@ public class ClientDao {
                                             .build();
             }
         } catch (SQLException e) {
-            LOGGER.info("Client wiht id " + id + " wasn't found in database", e);
+            LOGGER.warn("Client wiht id {} wasn't found in database", id, e);
         }
-        LOGGER.debug("Client with id " + id + " get successfully.");
+        LOGGER.trace("Client with id {} was get successfully.", id);
         return client;
     }
 
     public HashSet<Client> getAll(){
         HashSet<Client> clients = new HashSet<>();
-        LOGGER.debug("Started getting all clients from database.");
+        LOGGER.trace("Started getting all clients from database.");
         try {
             ResultSet resultSet = connection.createStatement().executeQuery(getQuery("client.selectAll"));
             while(resultSet.next()){
@@ -85,20 +85,20 @@ public class ClientDao {
                                                .build());
             }
         } catch (SQLException e) {
-            LOGGER.info("Process of getting all clients crashed.", e);
+            LOGGER.warn("Process of getting all clients crashed.", e);
         }
-        LOGGER.debug("All clients get successfully");
+        LOGGER.trace("All clients get successfully");
         return clients;
     }
 
     public void deleteById(UUID id){
-        LOGGER.debug("Started deleting client with id" + id + " from database.");
+        LOGGER.trace("Started deleting client with id {} from database.", id);
         try {
             int status = connection.createStatement().executeUpdate(getQuery("client.delete"));
-            if (status == 0) LOGGER.debug("No clients were affected while deleting");
+            if (status == 0) LOGGER.info("No clients were affected while deleting");
         } catch (SQLException e) {
-            LOGGER.info("Process of deleting client crashed.", e);
+            LOGGER.warn("Process of deleting client crashed.", e);
         }
-        LOGGER.debug("Client with id " + id + " deleted successfully");
+        LOGGER.debug("Client with id {} deleted successfully", id);
     }
 }

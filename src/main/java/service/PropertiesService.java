@@ -10,7 +10,7 @@ import java.util.Properties;
 import static constant.STR_CONSTANT.PATH_PROPERTIES;
 import static constant.STR_CONSTANT.PATH_SQL_QUERIES;
 import static org.apache.logging.log4j.LogManager.getLogger;
-import static service.PropertiesService.Type.DEFAULT;
+import static service.PropertiesService.Type.*;
 import static utility.ClassNameUtil.getClassName;
 
 public class PropertiesService {
@@ -22,11 +22,11 @@ public class PropertiesService {
     private static HashMap<Type, Properties> propertyMap = new HashMap<>();
     private static HashMap<Type, String> typePathMap = new HashMap<Type, String>(){{
         put(DEFAULT, PATH_PROPERTIES);
-        put(Type.SQL_QUERY, PATH_SQL_QUERIES);
+        put(SQL_QUERY, PATH_SQL_QUERIES);
     }};
 
     static {
-        LOGGER.info("Started property files initialization");
+        LOGGER.trace("Started property files initialization");
         typePathMap.forEach((x, y) -> propertyMap.put(x, loadProperties(y)));
         LOGGER.info("Property files initialization success");
     }

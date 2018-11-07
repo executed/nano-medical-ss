@@ -1,15 +1,25 @@
 package service;
 
+import constant.STR_CONSTANT;
 import entity.Doctor;
 import entity.TimeSlot;
 import exception.DoctorWorkTimeException;
+import exception.NoOverlapException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.joda.time.Interval;
+import utility.ClassNameUtil;
 
 import java.util.TreeSet;
+
+import static constant.STR_CONSTANT.DOC_WORKTIME_EXC;
+import static constant.STR_CONSTANT.NO_OVERLAP_EXC;
+import static utility.ClassNameUtil.getClassName;
 
 public class DoctorService {
 
     private final Doctor doctor;
+    private static final Logger LOGGER = LogManager.getLogger(getClassName());
 
     public DoctorService(Doctor doctor){
         this.doctor = doctor;
@@ -22,10 +32,12 @@ public class DoctorService {
      *           and if there are no same timeSlot
      *         - false if any of the upper conditions is false.
      */
-    public boolean addTimeSlot(TimeSlot slot){
-        return checkIfNotOverlapsSet(slot) &&
-                slotSatisfiesDoctorConfig(slot) &&
-                this.doctor.getTimeSlots().add(slot);
+    public boolean addTimeSlot(TimeSlot slot) throws DoctorWorkTimeException {
+        boolean status = checkIfNotOverlapsSet(slot) &&
+                         slotSatisfiesDoctorConfig(slot) &&
+                         this.doctor.getTimeSlots().add(slot);
+        LOGGER.trace("Time slot {} adding status: {}", slot, status);
+        return status;
     }
 
     /**
@@ -33,8 +45,8 @@ public class DoctorService {
      * @param slot Needed slot that is used to generate further
      * @return free time intervals
      */
-    public TreeSet<TimeSlot> getFreeSlots(TimeSlot slot){
-        if (checkIfNotOverlapsSet(slot)) throw new IllegalArgumentException("TimeSlot doesn't overlap any of the set");
+    public TreeSet<TimeSlot> getFreeSlots(TimeSlot slot) throws NoOverlapException {
+        if (checkIfNotOverlapsSet(slot)) throw new NoOverlapException(NO_OVERLAP_EXC, 101);
         TreeSet<TimeSlot> resultSlots = new TreeSet<>();
         resultSlots.add(new TimeSlot(doctor.getTimeSlots().last().getEndTime(),
                                      doctor.getEndOfWork()));
@@ -44,6 +56,7 @@ public class DoctorService {
                                                                    current.getStartTime());
             if (freeTime.getInterval().toDurationMillis() != 0) resultSlots.add(freeTime);
         }
+        LOGGER.trace("Doctor {}: free slots: {}", doctor, resultSlots.size());
         return resultSlots;
     }
 
@@ -53,10 +66,10 @@ public class DoctorService {
      * @param slot checked slot
      * @return true if all described checks are true, else false
      */
-    public boolean slotSatisfiesDoctorConfig(TimeSlot slot){
+    public boolean slotSatisfiesDoctorConfig(TimeSlot slot) throws DoctorWorkTimeException{
         Interval slotInterval = slot.getInterval();
         if (slotInterval.toDurationMillis() == 0) return false;
-        if (!withinWorkTime(slot)) throw new DoctorWorkTimeException("Doctor doesn't work at this time", 101);
+        if (!withinWorkTime(slot)) throw new DoctorWorkTimeException(DOC_WORKTIME_EXC, 101);
         return doctor.isMaxDurationChangeable() || withinMaxDurationOfAppointment(slot);
     }
 
@@ -65,7 +78,7 @@ public class DoctorService {
     }
 
     private boolean checkIfNotOverlapsSet(TimeSlot slot){
-        return !this.doctor.getTimeSlots().stream().anyMatch(x -> x.overlaps(slot));
+        return this.doctor.getTimeSlots().stream().noneMatch(x -> x.overlaps(slot));
     }
 
     private boolean withinWorkTime(TimeSlot slot){

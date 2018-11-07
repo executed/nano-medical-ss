@@ -1,6 +1,6 @@
 package exception;
 
-public class NoOverlapException extends RuntimeException{
+public class NoOverlapException extends Exception{
 
     private final int code;
 

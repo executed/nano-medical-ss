@@ -33,7 +33,7 @@ public class DBManager implements DataSourceManager<Connection>{
             String password = getPropertyByKey("db.password");
 
             connection = DriverManager.getConnection(url, login, password);
-            LOGGER.info("Database started with params: "+url+", "+login+", "+password);
+            LOGGER.info("Database started with params: {}, {}, {}", url, login, password);
         } catch (ClassNotFoundException | SQLException e) {
             LOGGER.fatal("Connection to database wasn't established properly", e);
             System.exit(1);
