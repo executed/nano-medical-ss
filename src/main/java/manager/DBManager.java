@@ -12,11 +12,19 @@ import static utility.ClassNameUtil.getClassName;
 public class DBManager implements DataSourceManager<Connection>{
 
     private static final Logger LOGGER = getLogger(getClassName());
-    private static DBManager ourInstance = new DBManager();
+    private static DBManager ourInstance;
+
+    static {
+        try {
+            ourInstance = new DBManager();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     private Connection connection;
 
-    private DBManager() {
+    private DBManager() throws SQLException {
         initializeConnection();
     }
 
@@ -24,19 +32,19 @@ public class DBManager implements DataSourceManager<Connection>{
 
     public Connection getConnection() { return  this.connection; }
 
-    public void initializeConnection() {
+    public void initializeConnection() throws SQLException {
         LOGGER.info("Database initialization started");
         try {
             Class.forName(getPropertyByKey("db.classname"));
-            String url = getPropertyByKey("db.url");
-            String login = getPropertyByKey("db.login");
-            String password = getPropertyByKey("db.password");
-
-            connection = DriverManager.getConnection(url, login, password);
-            LOGGER.info("Database started with params: {}, {}, {}", url, login, password);
-        } catch (ClassNotFoundException | SQLException e) {
-            LOGGER.fatal("Connection to database wasn't established properly", e);
-            System.exit(1);
+        } catch (ClassNotFoundException e) {
+            LOGGER.error("Driver wasn't found", e);
         }
+
+        String url = getPropertyByKey("db.url");
+        String login = getPropertyByKey("db.login");
+        String password = getPropertyByKey("db.password");
+
+        connection = DriverManager.getConnection(url, login, password);
+        LOGGER.info("Database started with params: {}, {}, {}", url, login, password);
     }
 }

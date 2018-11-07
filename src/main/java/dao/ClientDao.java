@@ -68,7 +68,7 @@ public class ClientDao {
                                             .build();
             }
         } catch (SQLException e) {
-            LOGGER.warn("Client wiht id {} wasn't found in database", id, e);
+            LOGGER.debug("Client wiht id {} wasn't found in database", id, e);
         }
         LOGGER.trace("Client with id {} was get successfully.", id);
         return client;
@@ -97,7 +97,7 @@ public class ClientDao {
             int status = connection.createStatement().executeUpdate(getQuery("client.delete"));
             if (status == 0) LOGGER.info("No clients were affected while deleting");
         } catch (SQLException e) {
-            LOGGER.warn("Process of deleting client crashed.", e);
+            LOGGER.debug("Process of deleting client crashed.", e);
         }
         LOGGER.debug("Client with id {} deleted successfully", id);
     }
