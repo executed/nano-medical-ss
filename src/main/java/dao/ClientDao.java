@@ -35,10 +35,10 @@ public class ClientDao {
             statement.setString(1, client.getFirstName());
             statement.setString(2, client.getLastName());
             statement.executeUpdate();
+            LOGGER.trace("Client {} saved successfully.", client);
         } catch (SQLException e) {
             LOGGER.warn("Client {} wasn't saved to database", client, e);
         }
-        LOGGER.trace("Client {} saved successfully.", client);
     }
 
     public void update(Client client){
@@ -50,10 +50,10 @@ public class ClientDao {
             statement.setString(2, client.getLastName());
             statement.setObject(3, client.getId());
             statement.executeUpdate();
+            LOGGER.trace("Client {} updated successfully.", client);
         } catch (SQLException e) {
             LOGGER.warn("Client {} wasn't updated in database", client, e);
         }
-        LOGGER.trace("Client {} updated successfully.", client);
     }
 
     public Client getById(UUID id){
@@ -68,11 +68,11 @@ public class ClientDao {
                                             .setFirstName(resultSet.getString("first_name"))
                                             .setLastName(resultSet.getString("last_name"))
                                             .build();
+                LOGGER.trace("Client with id {} was get successfully.", id);
             }
         } catch (SQLException e) {
             LOGGER.debug("Client wiht id {} wasn't found in database", id, e);
         }
-        LOGGER.trace("Client with id {} was get successfully.", id);
         return client;
     }
 
@@ -80,17 +80,18 @@ public class ClientDao {
         HashSet<Client> clients = new HashSet<>();
         LOGGER.trace("Started getting all clients from database.");
         try {
-            ResultSet resultSet = connection.createStatement().executeQuery(getQuery("client.selectAll"));
+            ResultSet resultSet =
+                    connection.createStatement().executeQuery(getQuery("client.selectAll"));
             while(resultSet.next()){
                 clients.add(new ClientBuilder().setId((UUID) resultSet.getObject("id"))
                                                .setFirstName(resultSet.getString("first_name"))
                                                .setLastName(resultSet.getString("last_name"))
                                                .build());
             }
+            LOGGER.trace("All clients were get successfully");
         } catch (SQLException e) {
             LOGGER.warn("Process of getting all clients crashed.", e);
         }
-        LOGGER.trace("All clients get successfully");
         return clients;
     }
 
@@ -99,9 +100,9 @@ public class ClientDao {
         try {
             int status = connection.createStatement().executeUpdate(getQuery("client.delete"));
             if (status == 0) LOGGER.info("No clients were affected while deleting");
+            else LOGGER.debug("Client with id {} deleted successfully", id);
         } catch (SQLException e) {
             LOGGER.debug("Process of deleting client crashed.", e);
         }
-        LOGGER.debug("Client with id {} deleted successfully", id);
     }
 }

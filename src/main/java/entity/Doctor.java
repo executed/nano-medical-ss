@@ -57,6 +57,8 @@ public class Doctor {
 
     public TreeSet<TimeSlot> getTimeSlots(){ return this.timeSlots; }
 
+    public String getFullName(){ return this.firstName + " " + this.lastName; }
+
     public boolean addTimeSlot(TimeSlot slot){
         return this.timeSlots.add(slot);
     }

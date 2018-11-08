@@ -9,13 +9,16 @@ public class MedicalCenter {
 
     public void addDoctor(Doctor doctor){ this.doctors.add(doctor); }
 
-    public void removeDoctorByFullName(String fullName){
-        this.doctors.removeIf(doctor -> doctor.getFullName().equals(fullName));
+    public void removeDoctorByFullName(String firstName, String lastName){
+        this.doctors.removeIf(doctor -> doctor.getFirstName().equals(firstName) &&
+                                        doctor.getLastName().equals(lastName));
     }
 
-    public Doctor getDoctorByFullName(String name){
+    public Doctor getDoctorByFullName(String firstName, String lastName){
         Optional<Doctor> optionalDoctor =
-                this.doctors.stream().filter(x -> x.getFullName().equals(name)).findFirst();
+                this.doctors.stream().filter(x -> x.getFirstName().equals(firstName) &&
+                                                  x.getLastName().equals(lastName))
+                                                  .findFirst();
         return optionalDoctor.orElse(null);
     }
 }

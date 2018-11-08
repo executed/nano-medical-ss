@@ -21,11 +21,12 @@ public class DoctorServiceTest {
 
     @BeforeClass
     public void setup(){
-        doctor = new DoctorBuilder().setFullName("Richardson")
-                                                    .setWorkTimeBounds("09:00", "19:00")
-                                                    .setMaxDurationOfAppointmentChangeable(false)
-                                                    .setMaxDurationOfAppointment(20)
-                                                    .build();
+        doctor = new DoctorBuilder().setFirstName("Richardson")
+                                    .setLastName("Hendrick")
+                                    .setWorkTimeBounds("09:00", "19:00")
+                                    .setMaxDurationOfAppointmentChangeable(false)
+                                    .setMaxDurationOfAppointment(20)
+                                    .build();
         doctor.addTimeSlot(new TimeSlot("12:50", "13:10"));
         doctor.addTimeSlot(new TimeSlot("13:10", "13:25"));
         doctor.addTimeSlot(new TimeSlot("14:00", "14:20"));
