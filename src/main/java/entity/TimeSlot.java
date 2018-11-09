@@ -13,8 +13,12 @@ import static handler.ParameterHandler.checkArgs;
 public class TimeSlot implements Comparable<TimeSlot>{
 
     private UUID id;
-    private final DateTime startTime;
-    private final DateTime endTime;
+    private UUID clientId;
+    private UUID doctorId;
+    private DateTime startTime;
+    private DateTime endTime;
+
+    private TimeSlot(){ }
 
     /** Sets time bounds */
     public TimeSlot(DateTime startTime, DateTime endTime){
@@ -44,7 +48,9 @@ public class TimeSlot implements Comparable<TimeSlot>{
         return (int) new Duration(this.startTime, this.endTime).getStandardMinutes();
     }
 
-    public void setId(UUID id){ this.id = id; }
+    public UUID getClientId(){ return this.clientId; }
+
+    public UUID getDoctorId(){ return this.doctorId; }
 
     public boolean overlaps(TimeSlot slot){
         return this.getInterval().overlaps(slot.getInterval());
@@ -70,5 +76,46 @@ public class TimeSlot implements Comparable<TimeSlot>{
         TimeSlot timeSlot = (TimeSlot) o;
         return Objects.equals(startTime, timeSlot.startTime) &&
                 Objects.equals(endTime, timeSlot.endTime);
+    }
+
+    public static class TimeSlotBuilder {
+
+        private TimeSlot timeSlot;
+
+        public TimeSlotBuilder(){
+            this.timeSlot = new TimeSlot();
+        }
+
+        public TimeSlotBuilder(TimeSlot timeSlot) { this.timeSlot = timeSlot; }
+
+        public TimeSlotBuilder setId(UUID uuid){
+            this.timeSlot.id = uuid;
+            return this;
+        }
+
+        public TimeSlotBuilder setClientId(UUID clientId){
+            this.timeSlot.clientId = clientId;
+            return this;
+        }
+
+        public TimeSlotBuilder setDoctorId(UUID doctorId){
+            this.timeSlot.doctorId = doctorId;
+            return this;
+        }
+
+        public TimeSlotBuilder setBounds(DateTime startTime, DateTime endTime){
+            this.timeSlot.startTime = startTime;
+            this.timeSlot.endTime = endTime;
+            return this;
+        }
+
+        public TimeSlotBuilder setBounds(String startTimeStr, String endTimeStr){
+            DateTime[] timeBounds = parseTimeBounds(startTimeStr, endTimeStr);
+            this.timeSlot.startTime = timeBounds[0];
+            this.timeSlot.endTime = timeBounds[1];
+            return this;
+        }
+
+        public TimeSlot build(){ return this.timeSlot; }
     }
 }
