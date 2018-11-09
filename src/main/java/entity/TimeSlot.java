@@ -5,12 +5,14 @@ import org.joda.time.Duration;
 import org.joda.time.Interval;
 
 import java.util.Objects;
+import java.util.UUID;
 
 import static service.TimeSlotService.parseTimeBounds;
 import static handler.ParameterHandler.checkArgs;
 
 public class TimeSlot implements Comparable<TimeSlot>{
 
+    private UUID id;
     private final DateTime startTime;
     private final DateTime endTime;
 
@@ -28,6 +30,8 @@ public class TimeSlot implements Comparable<TimeSlot>{
         this.endTime = timeBounds[1];
     }
 
+    public UUID getId(){ return this.id; }
+
     public DateTime getStartTime() { return startTime; }
 
     public DateTime getEndTime() { return endTime; }
@@ -39,6 +43,8 @@ public class TimeSlot implements Comparable<TimeSlot>{
     public int getDuration(){
         return (int) new Duration(this.startTime, this.endTime).getStandardMinutes();
     }
+
+    public void setId(UUID id){ this.id = id; }
 
     public boolean overlaps(TimeSlot slot){
         return this.getInterval().overlaps(slot.getInterval());
