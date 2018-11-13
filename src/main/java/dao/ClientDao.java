@@ -1,5 +1,6 @@
 package dao;
 
+import configuration.ClientConfiguration;
 import entity.Client;
 import entity.Client.ClientBuilder;
 import org.apache.logging.log4j.Logger;
@@ -8,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.UUID;
 
@@ -63,7 +65,7 @@ public class ClientDao {
             PreparedStatement statement = connection.prepareStatement(getQuery("client.select"));
             statement.setObject(1, id);
             ResultSet resultSet = statement.executeQuery();
-            if (resultSet.first()){
+            if (resultSet.next()){
                 client = new ClientBuilder().setId(id)
                                             .setFirstName(resultSet.getString("first_name"))
                                             .setLastName(resultSet.getString("last_name"))
@@ -104,5 +106,68 @@ public class ClientDao {
         } catch (SQLException e) {
             LOGGER.debug("Process of deleting client crashed.", e);
         }
+    }
+
+    public ClientConfiguration getClientConfigById(UUID id){
+        ClientConfiguration result = null;
+        LOGGER.trace("Started getting ClientConfiguration instance by id {} from database.", id);
+        try {
+            PreparedStatement statement = connection.prepareStatement(getQuery("clientConfig.select"));
+            statement.setObject(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()){
+                result = new ClientConfiguration(id,
+                                                 resultSet.getString("username"),
+                                                 resultSet.getString("email"),
+                                                 resultSet.getString("password"),
+                                                 resultSet.getBoolean("admin"));
+                LOGGER.trace("ClientConfiguration instance with id {} was get successfully.", id);
+            }
+        } catch (SQLException e) {
+            LOGGER.debug("ClientConfiguration instance wiht id {} wasn't found in database", id, e);
+        }
+        return result;
+    }
+
+    public ClientConfiguration getClientConfigByUsername(String username){
+        ClientConfiguration result = null;
+        LOGGER.trace("Started getting ClientConfiguration instance by username {} from database.", username);
+        try {
+            PreparedStatement statement = connection.prepareStatement(getQuery("clientConfig.selectByUsername"));
+            statement.setString(1, username);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()){
+                result = new ClientConfiguration((UUID) resultSet.getObject("id"),
+                                                 resultSet.getString("username"),
+                                                 resultSet.getString("email"),
+                                                 resultSet.getString("password"),
+                                                 resultSet.getBoolean("admin"));
+                LOGGER.trace("ClientConfiguration instance with username {} was get successfully.", username);
+            }
+        } catch (SQLException e) {
+            LOGGER.debug("ClientConfiguration instance wiht username {} wasn't found in database", username, e);
+        }
+        return result;
+    }
+
+    public ArrayList<ClientConfiguration> getAllClientConfigs(){
+        ArrayList<ClientConfiguration> resultList = new ArrayList<>();
+        LOGGER.trace("Started getting all ClientConfiguration instances from database.");
+        try {
+            ResultSet resultSet =
+                    connection.createStatement().executeQuery(getQuery("clientConfig.selectAll"));
+            while (resultSet.next()){
+                resultList.add(new ClientConfiguration((UUID) resultSet.getObject("id"),
+                                                       resultSet.getString("username"),
+                                                       resultSet.getString("email"),
+                                                       resultSet.getString("password"),
+                                                       resultSet.getBoolean("admin")));
+            }
+            LOGGER.trace("{} ClientConfiguration instances were get successfully", resultList.size());
+        } catch (SQLException e) {
+            LOGGER.warn("Process of getting all clients crashed.", e);
+        }
+
+        return resultList;
     }
 }

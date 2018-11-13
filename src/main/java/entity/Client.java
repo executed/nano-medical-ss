@@ -3,7 +3,6 @@ package entity;
 import java.util.Objects;
 import java.util.TreeSet;
 import java.util.UUID;
-//TODO: Make setting of timeSlots as it is by Doctor
 public class Client {
 
     private UUID id;
