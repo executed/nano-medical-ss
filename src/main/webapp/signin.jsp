@@ -80,16 +80,19 @@
 							<p class="text-center text-muted">Lorem ipsum dolor sit amet, <a href="signup.jsp">Register</a> adipisicing elit. Quo nulla quibusdam cum doloremque incidunt nemo sunt a tenetur omnis odio. </p>
 							<hr>
 							
-							<form>
+							<form method="post" action="/main/signin">
 								<div class="top-margin">
-									<label>Username/Email <span class="text-danger">*</span></label>
-									<input type="text" class="form-control">
+									<label>Username <span class="text-danger">*</span></label>
+									<input type="text" name="username" class="form-control">
 								</div>
 								<div class="top-margin">
 									<label>Password <span class="text-danger">*</span></label>
-									<input type="password" class="form-control">
+									<input type="password" name="password" class="form-control">
 								</div>
-
+								<!-- error message in case of bad authentication -->
+								<% if (request.getAttribute("errorMessage") != null) { %>
+								<p style="color:#a20e00"><%=request.getAttribute("errorMessage") %></p>
+								<% } %>
 								<hr>
 
 								<div class="row">

@@ -6,6 +6,6 @@ import javax.servlet.http.HttpServletResponse;
 public interface Action {
 
     String execute(HttpServletRequest request, HttpServletResponse response) throws Exception;
-    public boolean isRedirect();
+    boolean isRedirect();
     void setRedirect(boolean status);
 }

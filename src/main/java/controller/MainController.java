@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 
 import static utility.ClassNameUtil.getClassName;
@@ -20,7 +21,6 @@ public class MainController extends HttpServlet{
 
     protected void service(HttpServletRequest request, HttpServletResponse response) {
         try {
-            System.out.println("Income pathinfo: " + request.getMethod() + request.getPathInfo().substring(1));
             Action action = ActionFactory.getAction(request);
             if (action == null){
                 LOG.trace("No action specified for request: {}",
@@ -36,6 +36,7 @@ public class MainController extends HttpServlet{
             else request.getRequestDispatcher(context).forward(request, response);
         } catch (Exception e){
             LOG.trace("Something went wrong while obtaining request.", e);
+            //redirects to error page
         }
     }
 }
