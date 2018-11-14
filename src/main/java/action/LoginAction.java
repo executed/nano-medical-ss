@@ -2,25 +2,24 @@ package action;
 
 import configuration.ClientConfiguration;
 import dao.ClientDao;
-import dao.Dao;
+import dao.DaoValueObj;
 import entity.Client;
-import manager.DBManager;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import static dao.DaoValueObj.getDaoVO;
+
 public class LoginAction implements Action{
 
     private boolean redirect = false;
-    private static ClientDao clientDB = new ClientDao(new Dao(DBManager.getInstance()));
+    private static ClientDao clientDB =
+            (ClientDao) getDaoVO().getDao(ClientDao.class.getName());
 
-    @Override
     public boolean isRedirect() { return this.redirect; }
 
-    @Override
     public void setRedirect(boolean status) { this.redirect = status; }
 
-    @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception{
 
         String username = request.getParameter("username");
