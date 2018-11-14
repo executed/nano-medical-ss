@@ -17,7 +17,7 @@ import java.util.UUID;
 import static utility.ClassNameUtil.getClassName;
 import static utility.SqlQueryUtil.getQuery;
 
-public class TimeSlotDao {
+public class TimeSlotDao implements IDao{
 
     private Dao dao;
     private Connection connection;

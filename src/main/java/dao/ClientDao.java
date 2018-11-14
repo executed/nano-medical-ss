@@ -17,7 +17,7 @@ import static org.apache.logging.log4j.LogManager.getLogger;
 import static utility.ClassNameUtil.getClassName;
 import static utility.SqlQueryUtil.getQuery;
 
-public class ClientDao {
+public class ClientDao implements IDao{
 
     private Dao dao;
     private Connection connection;
