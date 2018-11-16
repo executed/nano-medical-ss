@@ -2,6 +2,7 @@ package controller;
 
 import action.Action;
 import action.ActionFactory;
+import entity.View;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -27,16 +28,13 @@ public class MainController extends HttpServlet{
                         request.getMethod() + request.getPathInfo().substring(1));
                 response.sendRedirect(request.getPathInfo().substring(1));
             }
-            String view = action.execute(request, response);
-
-            response.setContentType("text/html");
-
-            String context = "/" + view + ".jsp";
-            if (action.isRedirect()) response.sendRedirect(context);
-            else request.getRequestDispatcher(context).forward(request, response);
+            View view = action.execute(request, response);
+            System.out.println("OUT: "+view.getContext());
+            if (view.isRedirect()) response.sendRedirect(view.getContext());
+            else request.getRequestDispatcher(view.getContext()).forward(request, response);
         } catch (Exception e){
             LOG.trace("Something went wrong while obtaining request.", e);
-            //redirects to error page
+            //TODO: must redirect to error page
         }
     }
 }
