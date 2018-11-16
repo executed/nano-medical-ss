@@ -10,7 +10,7 @@
 	
 	<title>Sign in - Progressus Bootstrap template</title>
 
-	<link rel="shortcut icon" href="../assets/images/gt_favicon.png">
+	<link rel="shortcut icon" href="./assets/images/gt_favicon.png">
 	
 	<link rel="stylesheet" media="screen" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
 	<link rel="stylesheet" href="../assets/css/bootstrap.min.css">
@@ -22,8 +22,8 @@
 
 	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!--[if lt IE 9]>
-	<script src="../assets/js/html5shiv.js"></script>
-	<script src="../assets/js/respond.min.js"></script>
+	<script src="/assets/js/html5shiv.js"></script>
+	<script src="/assets/js/respond.min.js"></script>
 	<![endif]-->
 </head>
 
@@ -34,21 +34,21 @@
 			<div class="navbar-header">
 				<!-- Button for smallest screens -->
 				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
-				<a class="navbar-brand" href="WEB-INF/views/index.jsp"><img src="../assets/images/logo.png" alt="Progressus HTML5 template"></a>
+				<a class="navbar-brand" href="WEB-INF/views/index.jsp"><img src="assets/images/logo.png" alt="Progressus HTML5 template"></a>
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav pull-right">
-					<li><a href="../index.jsp">Home</a></li>
-					<li><a href="../about.jsp">About</a></li>
+					<li><a href="<c:url value="/"/>">Home</a></li>
+					<li><a href="about.jsp">About</a></li>
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">More Pages <b class="caret"></b></a>
-						<ul class="dropdown-menu">
-							<li><a href="../sidebar-left.html">Left Sidebar</a></li>
-							<li><a href="../sidebar-right.html">Right Sidebar</a></li>
+						<ul class="dropdow/n-menu">
+							<li><a href="./sidebar-left.jsp">Left Sidebar</a></li>
+							<li><a href="./sidebar-right.jsp">Right Sidebar</a></li>
 						</ul>
 					</li>
-					<li><a href="../contact.jsp">Contact</a></li>
-					<li class="active"><a class="btn" href="../signin.jsp">SIGN IN / SIGN UP</a></li>
+					<li><a href="./contact.jsp">Contact</a></li>
+					<li class="active"><a class="btn" href="./signin.jsp">SIGN IN / SIGN UP</a></li>
 				</ul>
 			</div><!--/.nav-collapse -->
 		</div>
@@ -61,7 +61,7 @@
 	<div class="container">
 
 		<ol class="breadcrumb">
-			<li><a href="../index.jsp">Home</a></li>
+			<li><a href="<c:url value="/"/>">Home</a></li>
 			<li class="active">User access</li>
 		</ol>
 
@@ -162,9 +162,9 @@
 						<div class="widget-body">
 							<p class="simplenav">
 								<a href="#">Home</a> | 
-								<a href="../about.jsp">About</a> |
+								<a href="./about.jsp">About</a> |
 								<a href="sidebar-right.jsp">Sidebar</a> |
-								<a href="../contact.jsp">Contact</a> |
+								<a href="./contact.jsp">Contact</a> |
 								<b><a href="signup.jsp">Sign up</a></b>
 							</p>
 						</div>
