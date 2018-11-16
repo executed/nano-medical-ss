@@ -4,6 +4,7 @@ import entity.TimeSlot;
 import exception.TimeSlotHandleException;
 import org.joda.time.DateTime;
 
+//TODO:DELETE AND REPLACE WITH VALIDATION
 public final class ParameterHandler {
 
     /** Checks if String is not null or empty */

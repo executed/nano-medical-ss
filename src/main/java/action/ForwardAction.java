@@ -10,21 +10,19 @@ import javax.servlet.http.HttpServletResponse;
 import static utility.ClassNameUtil.getClassName;
 import static validation.ValidatorValueObj.getDefValidator;
 
-public class RedirectAction implements Action{
+public class ForwardAction implements Action{
 
     private static final Logger LOG = LogManager.getLogger(getClassName());
     private String path;
 
-    public RedirectAction(){ }
-
-    public RedirectAction(String path){ this.path = path; }
+    public ForwardAction(String path){ this.path = path; }
 
     @Override
     public View execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         View view = new View();
-        //if path wasn't set by constructor
-        view.setPath((path == null) ? "/" + request.getPathInfo().substring(1) : path);
+        view.setForwarded(true);
+        view.setPath(path);
         return view;
     }
 }

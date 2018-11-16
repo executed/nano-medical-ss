@@ -3,7 +3,7 @@ package entity;
 import java.util.Objects;
 import java.util.TreeSet;
 import java.util.UUID;
-public class Client {
+public class Client implements IUser{
 
     private UUID id;
     private String firstName;

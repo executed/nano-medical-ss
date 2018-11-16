@@ -9,34 +9,34 @@ import java.util.HashSet;
 
 import static utility.ClassNameUtil.getClassName;
 
-public class DaoValueObj {
+public class DaoCache {
 
-    private static DaoValueObj ourInstance = new DaoValueObj();
+    private static DaoCache ourInstance = new DaoCache();
 
     private static final Logger LOG = LogManager.getLogger(getClassName());
 
-    /** Dao that every IDao implementation has as constructor param */
-    private Dao defaultDao = new Dao(DBManager.getInstance());
+    /** DaoSpreader that every IDao implementation has as constructor param */
+    private DaoSpreader defaultDaoSpreader = new DaoSpreader(DBManager.getInstance());
     /** Saves already initialized dao's to prevent continuous initialization */
     private HashSet<IDao> daoCache = new HashSet<>();
 
-    public static DaoValueObj getDaoVO() { return ourInstance; }
+    public static DaoCache getCache() { return ourInstance; }
 
-    private DaoValueObj() { }
+    private DaoCache() { }
 
     /**
-     * Changes default Dao with DataSourceManager as constructor param
+     * Changes default DaoSpreader with DataSourceManager as constructor param
      * @param dataSourceManager interface, which implementations points on
      *                          what data storage should be used
      */
     public void changeDefault(DataSourceManager dataSourceManager){
-        this.defaultDao = new Dao(dataSourceManager);
+        this.defaultDaoSpreader = new DaoSpreader(dataSourceManager);
     }
 
     /**
      * Searches for dao's in cache, if not present - returns new
      * @param className name of what IDao implementation is needed
-     * @return new Dao instance of specified type if no exception was thrown
+     * @return new DaoSpreader instance of specified type if no exception was thrown
      *         else - null
      */
     public IDao getDao(String className){
@@ -52,8 +52,8 @@ public class DaoValueObj {
         IDao newDao = null;
         try {
             Class neededClass = Class.forName(className);
-            newDao = (IDao) neededClass.getConstructor(Dao.class)
-                                       .newInstance(defaultDao);
+            newDao = (IDao) neededClass.getConstructor(DaoSpreader.class)
+                                       .newInstance(defaultDaoSpreader);
             daoCache.add(newDao);
         } catch (Exception e) {
             LOG.warn("Initialization of IDao implementaion {} failure", className, e);

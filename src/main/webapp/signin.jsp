@@ -34,7 +34,7 @@
 			<div class="navbar-header">
 				<!-- Button for smallest screens -->
 				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
-				<a class="navbar-brand" href="index.jsp"><img src="../assets/images/logo.png" alt="Progressus HTML5 template"></a>
+				<a class="navbar-brand" href="WEB-INF/views/index.jsp"><img src="../assets/images/logo.png" alt="Progressus HTML5 template"></a>
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav pull-right">
@@ -77,10 +77,10 @@
 					<div class="panel panel-default">
 						<div class="panel-body">
 							<h3 class="thin text-center">Sign in to your account</h3>
-							<p class="text-center text-muted">Lorem ipsum dolor sit amet, <a href="signup.jsp">Register</a> adipisicing elit. Quo nulla quibusdam cum doloremque incidunt nemo sunt a tenetur omnis odio. </p>
+							<p class="text-center text-muted">Lorem ipsum dolor sit amet, <a href="/main/signup">Register</a> adipisicing elit. Quo nulla quibusdam cum doloremque incidunt nemo sunt a tenetur omnis odio. </p>
 							<hr>
 							
-							<form method="post" action="/main/signin">
+							<form method="post" action="#">
 								<div class="top-margin">
 									<label>Username <span class="text-danger">*</span></label>
 									<input type="text" name="username" class="form-control">
@@ -96,9 +96,6 @@
 								<hr>
 
 								<div class="row">
-									<div class="col-lg-8">
-										<b><a href="">Forgot password?</a></b>
-									</div>
 									<div class="col-lg-4 text-right">
 										<button class="btn btn-action" type="submit">Sign in</button>
 									</div>

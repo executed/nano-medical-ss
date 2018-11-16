@@ -19,43 +19,41 @@ import static utility.SqlQueryUtil.getQuery;
 
 public class ClientDao implements IDao{
 
-    private Dao dao;
+    private DaoSpreader daoSpreader;
     private Connection connection;
 
     private static final Logger LOGGER = getLogger(getClassName());
 
-    public ClientDao(Dao dao){
-        this.dao = dao;
-        this.connection = dao.getConnection();
+    public ClientDao(DaoSpreader daoSpreader){
+        this.daoSpreader = daoSpreader;
+        this.connection = daoSpreader.getConnection();
     }
 
-    public void save(Client client){
-        if (client.getId() != null){ update(client); return; }
+    public UUID save(Client client) throws SQLException{
+        if (client.getId() != null){ update(client); return client.getId(); }
         LOGGER.trace("Started saving client {} in database.", client);
-        try {
-            PreparedStatement statement = connection.prepareStatement(getQuery("client.insert"));
-            statement.setString(1, client.getFirstName());
-            statement.setString(2, client.getLastName());
-            statement.executeUpdate();
+
+        PreparedStatement statement = connection.prepareStatement(getQuery("client.insert"));
+        statement.setString(1, client.getFirstName());
+        statement.setString(2, client.getLastName());
+        ResultSet resultSet = statement.executeQuery();
+        if (resultSet.next()){
             LOGGER.trace("Client {} saved successfully.", client);
-        } catch (SQLException e) {
-            LOGGER.warn("Client {} wasn't saved to database", client, e);
+            return (UUID) resultSet.getObject("id");
         }
+        return null;
     }
 
-    public void update(Client client){
+    public void update(Client client) throws SQLException{
         if (client.getId() == null){ save(client); return; }
         LOGGER.trace("Started updating client {} in database.", client);
-        try {
-            PreparedStatement statement = connection.prepareStatement(getQuery("client.update"));
-            statement.setString(1, client.getFirstName());
-            statement.setString(2, client.getLastName());
-            statement.setObject(3, client.getId());
-            statement.executeUpdate();
-            LOGGER.trace("Client {} updated successfully.", client);
-        } catch (SQLException e) {
-            LOGGER.warn("Client {} wasn't updated in database", client, e);
-        }
+
+        PreparedStatement statement = connection.prepareStatement(getQuery("client.update"));
+        statement.setString(1, client.getFirstName());
+        statement.setString(2, client.getLastName());
+        statement.setObject(3, client.getId());
+        statement.executeUpdate();
+        LOGGER.trace("Client {} updated successfully.", client);
     }
 
     public Client getById(UUID id){
@@ -108,6 +106,23 @@ public class ClientDao implements IDao{
         }
     }
 
+    public UUID saveClientConfig(ClientConfiguration clientConfig) throws SQLException{
+        LOGGER.trace("Started saving ClientConfiguration {} in database.", clientConfig);
+
+        PreparedStatement statement = connection.prepareStatement(getQuery("clientConfig.insert"));
+        statement.setObject(1, clientConfig.getId());
+        statement.setString(2, clientConfig.getEmail());
+        statement.setString(3, clientConfig.getPassword());
+        statement.setBoolean(4, clientConfig.isAdmin());
+        statement.setString(5, clientConfig.getUsername());
+        ResultSet resultSet = statement.executeQuery();
+        if (resultSet.next()){
+            LOGGER.trace("ClientConfiguration with {} saved successfully.", clientConfig);
+            return (UUID) resultSet.getObject("id");
+        }
+        return null;
+    }
+
     public ClientConfiguration getClientConfigById(UUID id){
         ClientConfiguration result = null;
         LOGGER.trace("Started getting ClientConfiguration instance by id {} from database.", id);
@@ -138,7 +153,7 @@ public class ClientDao implements IDao{
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()){
                 result = new ClientConfiguration((UUID) resultSet.getObject("id"),
-                                                 resultSet.getString("username"),
+                                                 username,
                                                  resultSet.getString("email"),
                                                  resultSet.getString("password"),
                                                  resultSet.getBoolean("admin"));
@@ -146,6 +161,27 @@ public class ClientDao implements IDao{
             }
         } catch (SQLException e) {
             LOGGER.debug("ClientConfiguration instance wiht username {} wasn't found in database", username, e);
+        }
+        return result;
+    }
+
+    public ClientConfiguration getClientConfigByEmail(String email){
+        ClientConfiguration result = null;
+        LOGGER.trace("Started getting ClientConfiguration instance by email {} from database.", email);
+        try {
+            PreparedStatement statement = connection.prepareStatement(getQuery("clientConfig.selectByEmail"));
+            statement.setString(1, email);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()){
+                result = new ClientConfiguration((UUID) resultSet.getObject("id"),
+                                                        resultSet.getString("username"),
+                                                        email,
+                                                        resultSet.getString("password"),
+                                                        resultSet.getBoolean("admin"));
+                LOGGER.trace("ClientConfiguration instance with email {} was get successfully.", email);
+            }
+        } catch (SQLException e) {
+            LOGGER.debug("ClientConfiguration instance wiht email {} wasn't found in database", email, e);
         }
         return result;
     }

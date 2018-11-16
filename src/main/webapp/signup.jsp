@@ -1,3 +1,6 @@
+<%@ page import="java.util.HashMap" %>
+<%@ page import="java.util.Map" %>
+<%@ page import="java.util.ArrayList" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
@@ -34,7 +37,7 @@
         <div class="navbar-header">
             <!-- Button for smallest screens -->
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
-            <a class="navbar-brand" href="${pageContext.servletContext.contextPath}/index.jsp"><img src="../assets/images/logo.png" alt="Progressus HTML5 template"></a>
+            <a class="navbar-brand" href="${pageContext.servletContext.contextPath}/webapp/main-page.jsp/WEB-INF/views/main-page.jsp"><img src="../assets/images/logo.png" alt="Progressus HTML5 template"></a>
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav pull-right">
@@ -79,41 +82,56 @@
                         <h3 class="thin text-center">Register a new account</h3>
                         <p class="text-center text-muted">Lorem ipsum dolor sit amet, <a href="../signin.html">Login</a> adipisicing elit. Quo nulla quibusdam cum doloremque incidunt nemo sunt a tenetur omnis odio. </p>
                         <hr>
+                        <%  HashMap<String, String> errors = new HashMap<>();
+                            if (request.getAttribute("errors") != null)
+                            errors = (HashMap<String, String>) request.getAttribute("errors"); %>
 
-                        <form>
+                        <form method="post" action="/main/signup">
                             <div class="top-margin">
                                 <label>First Name</label>
-                                <input type="text" class="form-control">
+                                <input id = "firstName_id" type="text" name="first_name" class="form-control" pattern="^[a-zA-Zа-яА-Я'][a-zA-Zа-яА-Я-' ]+[a-zA-Zа-яА-Я']?$" required>
                             </div>
                             <div class="top-margin">
                                 <label>Last Name</label>
-                                <input type="text" class="form-control">
+                                <input id = "lastName_id" type="text" name="last_name" class="form-control"  required>
                             </div>
                             <div class="top-margin">
                                 <label>Email Address <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control">
+                                <input id = "email_id" type="email" name="email" class="form-control" required>
                             </div>
+                            <% if (errors.get("email") != null) { %>
+                            <p style="color:#a20e00"><%=errors.get("email")%></p>
+                            <% } %>
+                            <div class="top-margin">
+                                <label>Username <span class="text-danger">*</span></label>
+                                <input id = "username_id" type="text" name="username" class="form-control" pattern="^[a-z0-9._]{5,32}$" required>
+                            </div>
+                            <% if (errors.get("username") != null) { %>
+                            <p style="color:#a20e00"><%=errors.get("username")%></p>
+                            <% } %>
 
                             <div class="row top-margin">
                                 <div class="col-sm-6">
                                     <label>Password <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control">
+                                    <input id="password" type="password" name="password" pattern="(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}" class="form-control" required>
                                 </div>
+                                <% if (errors.get("password") != null) { %>
+                                <p style="color:#a20e00"><%=errors.get("password")%></p>
+                                <% } %>
                                 <div class="col-sm-6">
                                     <label>Confirm Password <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control">
+                                    <input id="password2" onkeyup="validatePassword()" type="password" class="form-control" required>
                                 </div>
                             </div>
+                            <!-- error message in case of bad parameters -->
+                            <%  if (errors.size() != 0){
+                                if (errors.get("unknown") != null) { %>
+                            <p style="color:#a20e00"><%=errors.get("unknown")%></p>
+                            <% }} %>
 
                             <hr>
 
                             <div class="row">
-                                <div class="col-lg-8">
-                                    <label class="checkbox">
-                                        <input type="checkbox">
-                                        I've read the <a href="../page_terms.html">Terms and Conditions</a>
-                                    </label>
-                                </div>
                                 <div class="col-lg-4 text-right">
                                     <button class="btn btn-action" type="submit">Register</button>
                                 </div>
@@ -204,7 +222,17 @@
 
 
 
-
+<script>
+    function validatePassword(){
+        var password = document.getElementById("password")
+            , confirm_password = document.getElementById("password2");
+        if(password.value != confirm_password.value) {
+            confirm_password.setCustomValidity("Passwords Don't Match");
+        } else{
+            confirm_password.setCustomValidity('');
+        }
+    }
+</script>
 <!-- JavaScript libs are placed at the end of the document so the pages load faster -->
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>

@@ -10,15 +10,14 @@ public class ActionFactory {
 
     static {
         //nothing action
-        actions.put("GET/index", new NothingAction(false));
-        actions.put("GET/main", new NothingAction(false));
-        actions.put("GET/signin", new NothingAction(false));
-        actions.put("GET/about", new NothingAction(false));
-        actions.put("GET/signup", new NothingAction(false));
-        actions.put("GET/contact", new NothingAction(false));
-        actions.put("GET/test", new NothingAction(true));
+        actions.put("GET/", new ForwardAction("WEB-INF/views/index.jsp"));
+        actions.put("GET/signin.jsp", new RedirectAction());
+        actions.put("GET/about.jsp", new RedirectAction());
+        actions.put("GET/signup.jsp", new RedirectAction());
+        actions.put("GET/contact.jsp", new RedirectAction());
         //other action
-        actions.put("POST/signin", new LoginAction());
+        actions.put("POST/signin.jsp", new LoginAction());
+        actions.put("POST/signup.jsp", new SignupAction());
         //more
     }
 

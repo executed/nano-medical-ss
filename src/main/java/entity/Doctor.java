@@ -13,7 +13,7 @@ import static service.DateTimeService.parseDateTime;
  *  All mutable fields getters/setters should clone
  *  theirs parametrized and returnable data.
  */
-public class Doctor {
+public class Doctor implements IUser{
 
     //fields
     private UUID id;

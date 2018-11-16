@@ -15,14 +15,14 @@ import static utility.SqlQueryUtil.getQuery;
 
 public class DoctorDao implements IDao{
 
-    private Dao dao;
+    private DaoSpreader daoSpreader;
     private Connection connection;
 
     private static final Logger LOGGER = getLogger(getClassName());
 
-    public DoctorDao(Dao dao){
-        this.dao = dao;
-        this.connection = dao.getConnection();
+    public DoctorDao(DaoSpreader daoSpreader){
+        this.daoSpreader = daoSpreader;
+        this.connection = daoSpreader.getConnection();
     }
 
     public void save(Doctor doctor){
@@ -91,7 +91,7 @@ public class DoctorDao implements IDao{
             }
         } finally {
             try {
-                dao.closePreparedStatements(statement, statement2);
+                daoSpreader.closePreparedStatements(statement, statement2);
                 connection.setAutoCommit(true);
             } catch (SQLException e) {
                 LOGGER.warn("Auto-commit wasn't set to default", e);

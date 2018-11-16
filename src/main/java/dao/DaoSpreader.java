@@ -6,11 +6,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class Dao {
+public class DaoSpreader {
 
     private static Connection connection;
 
-    public Dao(DataSourceManager manager){
+    public DaoSpreader(DataSourceManager manager){
         connection = (Connection) manager.getConnection();
     }
 

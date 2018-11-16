@@ -1,14 +1,10 @@
 package dao;
 
-import entity.Client;
-import entity.Doctor;
 import entity.TimeSlot;
 import entity.TimeSlot.TimeSlotBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.joda.time.DateTime;
-import utility.ClassNameUtil;
-import utility.SqlQueryUtil;
 
 import java.sql.*;
 import java.util.TreeSet;
@@ -19,13 +15,13 @@ import static utility.SqlQueryUtil.getQuery;
 
 public class TimeSlotDao implements IDao{
 
-    private Dao dao;
+    private DaoSpreader daoSpreader;
     private Connection connection;
     private static final Logger LOGGER = LogManager.getLogger(getClassName());
 
-    public TimeSlotDao(Dao dao){
-        this.dao = dao;
-        this.connection = dao.getConnection();
+    public TimeSlotDao(DaoSpreader daoSpreader){
+        this.daoSpreader = daoSpreader;
+        this.connection = daoSpreader.getConnection();
     }
 
     private boolean alreadyExists(TimeSlot timeSlot){
