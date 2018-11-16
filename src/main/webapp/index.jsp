@@ -10,26 +10,49 @@
 
     <title>Nano Medical - Progressive Medical Center</title>
 
-    <link rel="shortcut icon" href="<c:url value="/assets/images/gt_favicon.png"/>">
+    <link rel="shortcut icon" href="../assets/images/gt_favicon.png">
 
     <link rel="stylesheet" media="screen" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
-    <link rel="stylesheet" href="<c:url value="/assets/css/bootstrap.min.css"/>">
-    <link rel="stylesheet" href="<c:url value="/assets/css/font-awesome.min.css"/>">
+    <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/css/font-awesome.min.css">
 
     <!-- Custom styles for our template -->
-    <link rel="stylesheet" href="<c:url value="/assets/css/bootstrap-theme.css"/>" media="screen" >
-    <link rel="stylesheet" href="<c:url value="/assets/css/main.css"/>">
+    <link rel="stylesheet" href="../assets/css/bootstrap-theme.css" media="screen" >
+    <link rel="stylesheet" href="../assets/css/main.css">
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
-    <script src="${pageContext.request.contextPath}/assets/js/html5shiv.js"></script>
-    <script src="${pageContext.request.contextPath}/assets/js/respond.min.js"></script>
+    <script src="../assets/js/html5shiv.js"></script>
+    <script src="../assets/js/respond.min.js"></script>
     <![endif]-->
 </head>
 
 <body class="home">
 <!-- Fixed navbar -->
-<jsp:include page="/wrapper/head_widget.jsp"/>
+<div class="navbar navbar-inverse navbar-fixed-top headroom" >
+    <div class="container">
+        <div class="navbar-header">
+            <!-- Button for smallest screens -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+            <a class="navbar-brand" href="../index.jsp"><img src="../assets/images/logo.png" alt="Progressus HTML5 template"></a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav pull-right">
+                <li class="active"><a href="#">Home</a></li>
+                <li><a href="../about.jsp">About</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">More Pages <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="../sidebar-left.jsp">Left Sidebar</a></li>
+                        <li class="active"><a href="../sidebar-right.jsp">Right Sidebar</a></li>
+                    </ul>
+                </li>
+                <li><a href="../contact.jsp">Contact</a></li>
+                <li><a class="btn" href="../signin.jsp">SIGN IN / SIGN UP</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</div>
 <!-- /.navbar -->
 <!-- Header -->
 <header id="head">
@@ -38,8 +61,8 @@
             <h1 class="lead">EFFECTIVE, CAREFUL, PROFESSIONAL</h1>
             <form method="get" class="probootstrap-form-appointment">
                 <p>
-                    <input formaction="/about.jsp" class="btn btn-default btn-lg" role="button" type="submit" name = "More" value="MORE INFO">
-                    <input formaction="/signup.jsp" class="btn btn-action btn-lg" role="button" type="submit" name = "Download" value="Register">
+                    <input formaction="/main/about" class="btn btn-default btn-lg" role="button" type="submit" name = "More" value="MORE INFO">
+                    <input formaction="/main/signup" class="btn btn-action btn-lg" role="button" type="submit" name = "Download" value="Register">
                 </p>
             </form>
         </div>
@@ -203,10 +226,10 @@
                     <div class="widget-body">
                         <p class="simplenav">
                             <a href="#">Home</a> |
-                            <a href="<c:url value="/about.jsp"/>">About</a> |
-                            <a href="<c:url value="/sidebar-right.jsp"/>">Sidebar</a> |
-                            <a href="<c:url value="/contact.jsp"/>">Contact</a> |
-                            <b><a href="<c:url value="/signup.jsp"/>">Sign up</a></b>
+                            <a href="../about.jsp">About</a> |
+                            <a href="../sidebar-right.html">Sidebar</a> |
+                            <a href="../contact.jsp">Contact</a> |
+                            <b><a href="../signup.jsp">Sign up</a></b>
                         </p>
                     </div>
                 </div>
@@ -230,8 +253,8 @@
 <!-- JavaScript libs are placed at the end of the document so the pages load faster -->
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
-<script src="/assets/js/headroom.min.js"></script>
-<script src="/assets/js/jQuery.headroom.min.js"></script>
-<script src="/assets/js/template.js"></script>
+<script src="../assets/js/headroom.min.js"></script>
+<script src="../assets/js/jQuery.headroom.min.js"></script>
+<script src="../assets/js/template.js"></script>
 </body>
 </html>

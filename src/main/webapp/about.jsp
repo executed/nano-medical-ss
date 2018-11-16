@@ -10,20 +10,20 @@
 	
 	<title>About - Progressus Bootstrap template</title>
 
-	<link rel="shortcut icon" href="<c:url value="/assets/images/gt_favicon.png"/>">
+	<link rel="shortcut icon" href="../assets/images/gt_favicon.png">
 	
 	<link rel="stylesheet" media="screen" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
-	<link rel="stylesheet" href="<c:url value="/assets/css/bootstrap.min.css"/>">
-	<link rel="stylesheet" href="<c:url value="/assets/css/font-awesome.min.css"/>">
+	<link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../assets/css/font-awesome.min.css">
 
 	<!-- Custom styles for our template -->
-	<link rel="stylesheet" href="<c:url value="/assets/css/bootstrap-theme.css"/>" media="screen" >
-	<link rel="stylesheet" href="<c:url value="/assets/css/main.css"/>">
+	<link rel="stylesheet" href="../assets/css/bootstrap-theme.css" media="screen" >
+	<link rel="stylesheet" href="../assets/css/main.css">
 
 	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!--[if lt IE 9]>
-	<script src="assets/js/html5shiv.js"></script>
-	<script src="assets/js/respond.min.js"></script>
+	<script src="../assets/js/html5shiv.js"></script>
+	<script src="../assets/js/respond.min.js"></script>
 	<![endif]-->
 </head>
 
@@ -34,21 +34,21 @@
 			<div class="navbar-header">
 				<!-- Button for smallest screens -->
 				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
-				<a class="navbar-brand" href="<c:url value="/"/>"><img src="assets/images/logo.png" alt="Progressus HTML5 template"></a>
+				<a class="navbar-brand" href="../index.jsp"><img src="../assets/images/logo.png" alt="Progressus HTML5 template"></a>
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav pull-right">
-					<li><a href="<c:url value="/"/>">Home</a></li>
+					<li><a href="../index.jsp">Home</a></li>
 					<li class="active"><a href="about.jsp">About</a></li>
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">More Pages <b class="caret"></b></a>
 						<ul class="dropdown-menu">
-							<li><a href="sidebar-left.jsp">Left Sidebar</a></li>
-							<li><a href="sidebar-right.jsp">Right Sidebar</a></li>
+							<li><a href="../sidebar-left.html">Left Sidebar</a></li>
+							<li><a href="../sidebar-right.html">Right Sidebar</a></li>
 						</ul>
 					</li>
-					<li><a href="contact.jsp">Contact</a></li>
-					<li><a class="btn" href="signin.jsp">SIGN IN / SIGN UP</a></li>
+					<li><a href="../contact.jsp">Contact</a></li>
+					<li><a class="btn" href="../signin.jsp">SIGN IN / SIGN UP</a></li>
 				</ul>
 			</div><!--/.nav-collapse -->
 		</div>
@@ -61,7 +61,7 @@
 	<div class="container">
 
 		<ol class="breadcrumb">
-			<li><a href="<c:url value="/"/>">Home</a></li>
+			<li><a href="../index.jsp">Home</a></li>
 			<li class="active">About</li>
 		</ol>
 
@@ -73,7 +73,7 @@
 					<h1 class="page-title">About us</h1>
 				</header>
 				<h3>Lorem ipsum</h3>
-				<p><img src="assets/images/mac.jpg" alt="" class="img-rounded pull-right" width="300" > Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eveniet, consequuntur eius repellendus eos aliquid molestiae ea laborum ex quibusdam laudantium voluptates placeat consectetur quam aliquam beatae soluta accusantium iusto nihil nesciunt unde veniam magnam repudiandae sapiente.</p>
+				<p><img src="../assets/images/mac.jpg" alt="" class="img-rounded pull-right" width="300" > Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eveniet, consequuntur eius repellendus eos aliquid molestiae ea laborum ex quibusdam laudantium voluptates placeat consectetur quam aliquam beatae soluta accusantium iusto nihil nesciunt unde veniam magnam repudiandae sapiente.</p>
 				<p>Quos, aliquam nam velit impedit minus tenetur beatae voluptas facere sint pariatur! Voluptatibus, quisquam, error, est assumenda corporis inventore illo nesciunt iure aut dolor possimus repellat minima veniam alias eius!</p>
 				<h3>Necessitatibus</h3>
 				<p>Velit, odit, eius, libero unde impedit quaerat dolorem assumenda alias consequuntur optio quae maiores ratione tempore sit aliquid architecto eligendi pariatur ab soluta doloremque dicta aspernatur labore quibusdam dolore corrupti quod inventore. Maiores, repellat, consequuntur eius repellendus eos aliquid molestiae ea laborum ex quibusdam laudantium voluptates placeat consectetur quam aliquam!</p>
@@ -156,10 +156,10 @@
 						<div class="widget-body">
 							<p class="simplenav">
 								<a href="#">Home</a> | 
-								<a href="about.jsp">About</a> |
-								<a href="sidebar-right.jsp">Sidebar</a> |
-								<a href="contact.jsp">Contact</a> |
-								<b><a href="signup.jsp">Sign up</a></b>
+								<a href="../about.jsp">About</a> |
+								<a href="../sidebar-right.html">Sidebar</a> |
+								<a href="../contact.jsp">Contact</a> |
+								<b><a href="../signup.jsp">Sign up</a></b>
 							</p>
 						</div>
 					</div>
@@ -184,8 +184,8 @@
 	<!-- JavaScript libs are placed at the end of the document so the pages load faster -->
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
-	<script src="assets/js/headroom.min.js"></script>
-	<script src="assets/js/jQuery.headroom.min.js"></script>
-	<script src="assets/js/template.js"></script>
+	<script src="../assets/js/headroom.min.js"></script>
+	<script src="../assets/js/jQuery.headroom.min.js"></script>
+	<script src="../assets/js/template.js"></script>
 </body>
 </html>
