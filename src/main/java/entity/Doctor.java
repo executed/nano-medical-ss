@@ -67,6 +67,9 @@ public class Doctor implements IUser{
         return this.timeSlots.remove(slot);
     }
 
+    @Override
+    public String getClassName() { return this.getClass().getName(); }
+
     /**
      *  Static inner class created as util to work with Doctor entity.
      */

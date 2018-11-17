@@ -15,6 +15,7 @@ public class ActionFactory {
         actions.put("GET/about.jsp", new RedirectAction());
         actions.put("GET/signup.jsp", new RedirectAction());
         actions.put("GET/contact.jsp", new RedirectAction());
+        actions.put("GET/client-profile", new ProfileAction());
         //other action
         actions.put("POST/signin.jsp", new LoginAction());
         actions.put("POST/signup.jsp", new SignupAction());

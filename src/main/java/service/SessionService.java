@@ -9,5 +9,6 @@ public class SessionService {
 
     public static void attachUser(HttpSession session, IUser user){
         session.setAttribute("user", user);
+        session.setMaxInactiveInterval(60*60*24);
     }
 }

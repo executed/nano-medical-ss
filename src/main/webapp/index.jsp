@@ -1,5 +1,7 @@
+<%@ page import="entity.IUser" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page session="true" %>
 <!DOCTYPE html>
 <html lang="en" xmlns:fb="http://www.w3.org/1999/xhtml" xmlns:g="http://www.w3.org/1999/xhtml">
 <head>
@@ -48,7 +50,11 @@
                     </ul>
                 </li>
                 <li><a href="../contact.jsp">Contact</a></li>
-                <li><a class="btn" href="../signin.jsp">SIGN IN / SIGN UP</a></li>
+                <% if (((IUser) session.getAttribute("user")) != null) {
+                    %> <li><a class="btn" href="${pageContext.request.contextPath}/nano-medical/client-profile">Profile</a></li> <%
+                } else {
+                    %> <li><a class="btn" href="../signin.jsp">SIGN IN / SIGN UP</a></li> <%
+                }%>
             </ul>
         </div><!--/.nav-collapse -->
     </div>

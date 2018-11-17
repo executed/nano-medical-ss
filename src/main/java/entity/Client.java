@@ -10,9 +10,7 @@ public class Client implements IUser{
     private String lastName;
     private TreeSet<TimeSlot> timeSlots;
 
-    public UUID getId() {
-        return id;
-    }
+    public UUID getId() { return id; }
 
     public String getFirstName() { return this.firstName; }
 
@@ -36,9 +34,10 @@ public class Client implements IUser{
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(id, firstName, lastName);
-    }
+    public int hashCode() { return Objects.hash(id, firstName, lastName); }
+
+    @Override
+    public String getClassName() { return this.getClass().getName(); }
 
     /**
      *  Static inner class created as util to work with Client entity.
