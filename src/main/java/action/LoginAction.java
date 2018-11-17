@@ -37,7 +37,7 @@ public class LoginAction implements Action{
         View view = new View(true);
         view.setRedirected(!error);
         view.setPathClosed(error);
-        view.setPath((error) ? request.getPathInfo().substring(1) : "/");
+        view.setPath((error) ? "/signin.jsp" : "/");
 
         return view;
     }

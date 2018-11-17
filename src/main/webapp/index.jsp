@@ -61,8 +61,8 @@
             <h1 class="lead">EFFECTIVE, CAREFUL, PROFESSIONAL</h1>
             <form method="get" class="probootstrap-form-appointment">
                 <p>
-                    <input formaction="/main/about" class="btn btn-default btn-lg" role="button" type="submit" name = "More" value="MORE INFO">
-                    <input formaction="/main/signup" class="btn btn-action btn-lg" role="button" type="submit" name = "Download" value="Register">
+                    <input formaction="../about.jsp" class="btn btn-default btn-lg" role="button" type="submit" name = "More" value="MORE INFO">
+                    <input formaction="../signup.jsp" class="btn btn-action btn-lg" role="button" type="submit" name = "Download" value="Register">
                 </p>
             </form>
         </div>

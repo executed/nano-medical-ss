@@ -80,22 +80,25 @@
 							<p class="text-center text-muted">Lorem ipsum dolor sit amet, <a href="signup.jsp">Register</a> adipisicing elit. Quo nulla quibusdam cum doloremque incidunt nemo sunt a tenetur omnis odio. </p>
 							<hr>
 							
-							<form>
+							<form action="${pageContext.request.contextPath}/nano-medical/signin.jsp" method="post">
 								<div class="top-margin">
-									<label>Username/Email <span class="text-danger">*</span></label>
-									<input type="text" class="form-control">
+									<label>Username <span class="text-danger">*</span></label>
+									<input type="text" name="username" class="form-control">
 								</div>
 								<div class="top-margin">
 									<label>Password <span class="text-danger">*</span></label>
-									<input type="password" class="form-control">
+									<input type="password" name="password" class="form-control">
+								</div>
+								<div>
+									<% if (request.getAttribute("errorMessage") != null){
+									    %> <label style="color: darkred"><%= request.getAttribute("errorMessage") %></label> <%
+									}%>
 								</div>
 
 								<hr>
 
 								<div class="row">
-									<div class="col-lg-8">
-										<b><a href="">Forgot password?</a></b>
-									</div>
+
 									<div class="col-lg-4 text-right">
 										<button class="btn btn-action" type="submit">Sign in</button>
 									</div>
