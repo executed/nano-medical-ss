@@ -32,7 +32,7 @@ public class LoginAction implements Action{
             request.setAttribute("client", client);
             request.setAttribute("clientConfig", clientConfig);
             error = false;
-            SessionService.attachUser(request.getSession(), client);
+            SessionService.attachUser(request, client);
         }
         View view = new View(true);
         view.setRedirected(!error);

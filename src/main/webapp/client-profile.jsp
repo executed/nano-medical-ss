@@ -1,4 +1,4 @@
-<%--
+<%@ page import="entity.Client" %><%--
   Created by IntelliJ IDEA.
   User: danse
   Date: 17.11.2018
@@ -12,7 +12,7 @@
 </head>
 <body>
         CLIENT PROFILE DATA
-        <jsp:useBean id="user" class="entity.Client" scope="page"/>
-        <label style="color: darkcyan"><%=user.getFirstName() + " " + user.getLastName()%></label>
+        <% Client client = (Client) session.getAttribute("user"); %>
+        <label style="color: darkcyan"><%=client.getFirstName() + " " + client.getLastName()%></label>
 </body>
 </html>

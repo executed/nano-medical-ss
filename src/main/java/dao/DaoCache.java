@@ -48,6 +48,7 @@ public class DaoCache {
         return initAndSave(className);
     }
 
+    @SuppressWarnings("unchecked")
     private IDao initAndSave(String className){
         IDao newDao = null;
         try {

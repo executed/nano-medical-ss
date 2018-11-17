@@ -7,6 +7,7 @@ import entity.Client;
 import entity.Client.ClientBuilder;
 import entity.View;
 import org.apache.logging.log4j.Logger;
+import service.SessionService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -44,13 +45,18 @@ public class SignupAction implements Action{
         //after all validations
         boolean error = true;
         if (errors.size() == 0 && violations.size() == 0) {
-            if (saveData(dto)) error = false;
+            if (saveData(dto)){
+                error = false;
+                //setting user to session
+                SessionService.attachUser(request, clientDB.getById(clientConfigByUsername.getId()));
+            }
             else errors.put("unknown", UNKNOWN);
         }
         View view = new View(true);
-        view.setRedirected(false);
-        view.setPathClosed(!error);
-        view.setPath((error) ? request.getPathInfo().substring(1) : "clientProfile");
+        view.setRedirected(!error);
+        view.setPathClosed(error);
+        view.setPath((error) ? "/signup.jsp" : "/");
+
         return view;
     }
 
