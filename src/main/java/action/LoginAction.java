@@ -4,6 +4,7 @@ import configuration.ClientConfiguration;
 import dao.ClientDao;
 import dto.LoginDTO;
 import entity.Client;
+import entity.Client.ClientBuilder;
 import entity.View;
 import service.SessionService;
 
@@ -28,7 +29,10 @@ public class LoginAction implements Action{
                 clientDB.getClientConfigByUsername(dto.getUsername());
 
         if (!hasErrors(dto, clientConfig, request)){
+            //initializing client with data from database
             Client client = clientDB.getById(clientConfig.getId());
+            new ClientBuilder(client).setConfig(clientConfig);
+            //setting request attributes for jsp
             request.setAttribute("client", client);
             request.setAttribute("clientConfig", clientConfig);
             error = false;

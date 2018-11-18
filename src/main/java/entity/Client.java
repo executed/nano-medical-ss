@@ -1,5 +1,7 @@
 package entity;
 
+import configuration.ClientConfiguration;
+
 import java.util.Objects;
 import java.util.TreeSet;
 import java.util.UUID;
@@ -8,6 +10,7 @@ public class Client implements IUser{
     private UUID id;
     private String firstName;
     private String lastName;
+    private ClientConfiguration configuration;
     private TreeSet<TimeSlot> timeSlots;
 
     public UUID getId() { return id; }
@@ -17,6 +20,8 @@ public class Client implements IUser{
     public String getLastName() { return this.lastName; }
 
     public TreeSet<TimeSlot> getTimeSlots() { return this.timeSlots; }
+
+    public ClientConfiguration getConfiguration() { return this.configuration; }
 
     public void addTimeSlot(TimeSlot slot){ this.timeSlots.add(slot); }
 
@@ -64,6 +69,11 @@ public class Client implements IUser{
 
         public ClientBuilder setLastName(String name){
             this.client.lastName = name;
+            return this;
+        }
+
+        public ClientBuilder setConfig(ClientConfiguration config){
+            this.client.configuration = config;
             return this;
         }
 

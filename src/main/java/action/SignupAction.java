@@ -45,10 +45,11 @@ public class SignupAction implements Action{
         //after all validations
         boolean error = true;
         if (errors.size() == 0 && violations.size() == 0) {
-            if (saveData(dto)){
+            UUID savedClientId = saveData(dto);
+            if (savedClientId != null){
                 error = false;
                 //setting user to session
-                SessionService.attachUser(request, clientDB.getById(clientConfigByUsername.getId()));
+                SessionService.attachUser(request, clientDB.getById(savedClientId));
             }
             else errors.put("unknown", UNKNOWN);
         }
@@ -60,8 +61,8 @@ public class SignupAction implements Action{
         return view;
     }
 
-    private boolean saveData(SignupDTO dto){
-        boolean errorStatus = true;
+    private UUID saveData(SignupDTO dto){
+        UUID savedClientId = null;
 
         Client client = new ClientBuilder().setFirstName(dto.getFirstName())
                                            .setLastName(dto.getLastName())
@@ -78,12 +79,12 @@ public class SignupAction implements Action{
                 clientDB.deleteById(clientId);
                 throw new SQLException("ClientConfiguration saving to database returned null id value");
             }
-            else errorStatus = false;
+            else savedClientId = clientId;
             LOG.trace("SignupDTO {} saved successful");
         } catch (SQLException e) {
             LOG.info("Something went wrong while saving DTO {} to database", e);
         }
-        return !errorStatus;
+        return savedClientId;
     }
     //TODO: Make setting more errors as attributes
     private HashMap<String, String> getErrors(Set<ConstraintViolation<SignupDTO>> violations, ClientConfiguration configByEmail, ClientConfiguration configByUsername){

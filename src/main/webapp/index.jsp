@@ -51,7 +51,7 @@
                 </li>
                 <li><a href="../contact.jsp">Contact</a></li>
                 <% if (((IUser) session.getAttribute("user")) != null) {
-                    %> <li><a class="btn" href="${pageContext.request.contextPath}/nano-medical/client-profile">Profile</a></li> <%
+                    %> <li><a class="btn" href="${pageContext.request.contextPath}/nano-medical/signout">Sign Out</a></li> <%
                 } else {
                     %> <li><a class="btn" href="../signin.jsp">SIGN IN / SIGN UP</a></li> <%
                 }%>
@@ -68,7 +68,11 @@
             <form method="get" class="probootstrap-form-appointment">
                 <p>
                     <input formaction="../about.jsp" class="btn btn-default btn-lg" role="button" type="submit" name = "More" value="MORE INFO">
-                    <input formaction="../signup.jsp" class="btn btn-action btn-lg" role="button" type="submit" name = "Download" value="Register">
+                    <% if (session.getAttribute("user") != null) {
+                    %> <input formaction="/nano-medical/client-profile" class="btn btn-action btn-lg" role="button" type="submit" name = "Download" value="Profile">  <%
+                       } else {
+                    %> <input formaction="../signup.jsp" class="btn btn-action btn-lg" role="button" type="submit" name = "Download" value="Register"> <%
+                    }%>
                 </p>
             </form>
         </div>

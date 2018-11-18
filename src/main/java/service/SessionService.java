@@ -12,4 +12,14 @@ public class SessionService {
         session.setAttribute("user", user);
         session.setMaxInactiveInterval(60*60*24);
     }
+
+    public static void detachUser(HttpServletRequest request, IUser user){
+        HttpSession session = request.getSession(false);
+        session.removeAttribute("user");
+    }
+
+    public static void stopSession(HttpServletRequest request){
+        HttpSession session = request.getSession(false);
+        session.invalidate();
+    }
 }
