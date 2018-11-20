@@ -1,58 +1,43 @@
 package action;
 
-import dao.TimeSlotDao;
-import entity.IUser;
-import entity.TimeSlot;
 import entity.View;
 import service.TimeSlotActionService;
-import service.TimeSlotDBService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
-import static dao.DaoCache.getCache;
-
 public class TimeSlotAction implements Action{
 
     public enum Type{ REMOVE, CREATE, UPDATE }
 
-    private static TimeSlotDao timeSlotDB =
-            (TimeSlotDao) getCache().getDao(TimeSlotDao.class.getName());
-
     private Type type;
-    private HttpServletRequest req;
-    private HttpServletResponse resp;
+
+    private TimeSlotActionService service = new TimeSlotActionService();
 
     @Override
-    public View execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        this.req = request;
-        this.resp = response;
-        loadType();
-        return resolveAction(type);
+    public View execute(HttpServletRequest request, HttpServletResponse response){
+        loadType(request);
+        return resolveAction(type, request, response);
     }
 
-    private View resolveAction(Type TYPE){
+    private View resolveAction(Type TYPE, HttpServletRequest req, HttpServletResponse resp){
         switch (TYPE){
-            case REMOVE: return removeTimeSlot();
+            case REMOVE: return removeTimeSlot(req);
+            //other actions in future
             default: return null;
         }
     }
 
-    private View removeTimeSlot(){
+    private View removeTimeSlot(HttpServletRequest req){
         //getting needed request data
         UUID slotId = UUID.fromString(req.getParameter("id"));
 
-        return new TimeSlotActionService().removeTimeSlot(slotId);
+        return service.removeTimeSlot(slotId);
     }
 
-    private void loadType(){
+    private void loadType(HttpServletRequest req){
         String actionType = req.getParameter("action");
-        switch (actionType){
-            case "REMOVE": this.type = Type.REMOVE; break;
-            case "CREATE": this.type = Type.CREATE; break;
-            case "UPDATE": this.type = Type.UPDATE; break;
-            default: throw new IllegalArgumentException("No such TimeSlotAction Type");
-        }
+        this.type = service.getType(actionType);
     }
 }
