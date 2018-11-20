@@ -4,7 +4,7 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
-public class ValidatorValueObj {
+public class ValidatorCache {
 
     private static ValidatorFactory factory;
     private static Validator validator;

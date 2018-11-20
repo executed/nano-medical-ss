@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import static constant.VALIDATION_MSG_CONSTANT.USERNAME_OR_PASS_WRONG;
 import static dao.DaoCache.getCache;
-import static validation.ValidatorValueObj.getDefValidator;
+import static validation.ValidatorCache.getDefValidator;
 
 public class LoginAction implements Action{
 

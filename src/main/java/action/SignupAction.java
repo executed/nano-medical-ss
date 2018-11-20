@@ -22,7 +22,7 @@ import static constant.VALIDATION_MSG_CONSTANT.*;
 import static dao.DaoCache.getCache;
 import static org.apache.logging.log4j.LogManager.getLogger;
 import static utility.ClassNameUtil.getClassName;
-import static validation.ValidatorValueObj.getDefValidator;
+import static validation.ValidatorCache.getDefValidator;
 
 public class SignupAction implements Action{
 

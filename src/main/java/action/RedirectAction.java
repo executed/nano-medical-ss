@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import static utility.ClassNameUtil.getClassName;
-import static validation.ValidatorValueObj.getDefValidator;
 
 public class RedirectAction implements Action{
 

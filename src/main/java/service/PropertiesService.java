@@ -19,7 +19,7 @@ public class PropertiesService {
     public enum Type { DEFAULT, SQL_QUERY }
 
     private static final Logger LOGGER = getLogger(getClassName());
-    private static boolean errorOcured = false;
+    private static boolean errorOccurred = false;
 
     private static HashMap<Type, Properties> propertyMap = new HashMap<>();
     private static HashMap<Type, String> typePathMap = new HashMap<Type, String>(){{
@@ -30,7 +30,7 @@ public class PropertiesService {
     static {
         LOGGER.trace(PROP_INIT);
         typePathMap.forEach((x, y) -> propertyMap.put(x, loadProperties(y)));
-        LOGGER.info((errorOcured) ? PROP_INIT_FAIL : PROP_INIT_OK);
+        LOGGER.info((errorOccurred) ? PROP_INIT_FAIL : PROP_INIT_OK);
     }
 
     public static String getPropertyByKey(String key){
@@ -50,7 +50,7 @@ public class PropertiesService {
         }
         catch (IOException e) {
             LOGGER.error(PROP_INIT_BAD, path, e);
-            errorOcured = true;
+            errorOccurred = true;
         }
         return property;
     }
