@@ -1,4 +1,4 @@
-package service;
+package utility;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
@@ -6,7 +6,7 @@ import org.joda.time.format.DateTimeFormatter;
 import static handler.ParameterHandler.checkArgs;
 import static org.joda.time.format.DateTimeFormat.forPattern;
 
-public final class DateTimeService {
+public final class DateTimeUtil {
 
     private static final DateTimeFormatter FORMATTER_DEF = forPattern("dd/MM/yyyy HH:mm");
 

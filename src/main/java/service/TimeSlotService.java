@@ -3,7 +3,7 @@ package service;
 import org.joda.time.DateTime;
 
 import static handler.ParameterHandler.checkArgs;
-import static service.DateTimeService.parseDateTime;
+import static utility.DateTimeUtil.parseDateTime;
 
 public final class TimeSlotService {
 

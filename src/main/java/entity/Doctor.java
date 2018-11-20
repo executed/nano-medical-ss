@@ -7,7 +7,7 @@ import org.joda.time.Interval;
 import java.util.TreeSet;
 import java.util.UUID;
 
-import static service.DateTimeService.parseDateTime;
+import static utility.DateTimeUtil.parseDateTime;
 
 /** Entity class created to hold info about doctor.
  *  All mutable fields getters/setters should clone
