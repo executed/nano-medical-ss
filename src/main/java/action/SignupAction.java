@@ -7,7 +7,7 @@ import entity.Client;
 import entity.Client.ClientBuilder;
 import entity.View;
 import org.apache.logging.log4j.Logger;
-import service.SessionService;
+import utility.SessionUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -49,7 +49,7 @@ public class SignupAction implements Action{
             if (savedClientId != null){
                 error = false;
                 //setting user to session
-                SessionService.attachUser(request, clientDB.getById(savedClientId));
+                SessionUtil.attachUser(request, clientDB.getById(savedClientId));
             }
             else errors.put("unknown", UNKNOWN);
         }

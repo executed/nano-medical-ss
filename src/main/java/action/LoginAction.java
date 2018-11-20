@@ -6,7 +6,7 @@ import dto.LoginDTO;
 import entity.Client;
 import entity.Client.ClientBuilder;
 import entity.View;
-import service.SessionService;
+import utility.SessionUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -36,7 +36,7 @@ public class LoginAction implements Action{
             request.setAttribute("client", client);
             request.setAttribute("clientConfig", clientConfig);
             error = false;
-            SessionService.attachUser(request, client);
+            SessionUtil.attachUser(request, client);
         }
         View view = new View(true);
         view.setRedirected(!error);

@@ -1,11 +1,11 @@
-package service;
+package utility;
 
 import entity.IUser;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-public class SessionService {
+public class SessionUtil {
 
     public static void attachUser(HttpServletRequest request, IUser user){
         HttpSession session = request.getSession(true);

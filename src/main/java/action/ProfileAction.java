@@ -7,7 +7,7 @@ import dto.ClientProfileDTO;
 import entity.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import service.SessionService;
+import utility.SessionUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -62,7 +62,7 @@ public class ProfileAction implements Action{
             dto.addSlotDoctorMapEntry(slot, slotDoctor);
         }
         //adding dto to session
-        SessionService.attachObj(req, "dto", dto);
+        SessionUtil.attachObj(req, "dto", dto);
 
         View view = new View(true);
         view.setPath("/client-profile.jsp");

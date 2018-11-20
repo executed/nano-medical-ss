@@ -4,7 +4,7 @@
 <%@ page import="dto.ClientProfileDTO" %>
 <%@ page import="java.util.Map" %>
 <%@ page import="entity.Doctor" %>
-<%@ page import="service.SessionService" %>
+<%@ page import="utility.SessionUtil" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page session="true" %>

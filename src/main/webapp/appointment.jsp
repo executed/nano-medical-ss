@@ -1,7 +1,7 @@
 <%@ page import="entity.Doctor" %>
 <%@ page import="entity.TimeSlot" %>
 <%@ page import="java.util.TreeSet" %>
-<%@ page import="service.SessionService" %>
+<%@ page import="utility.SessionUtil" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
