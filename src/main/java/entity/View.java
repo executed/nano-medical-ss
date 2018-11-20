@@ -1,10 +1,6 @@
 package entity;
 
-import service.ViewService;
-
 import javax.validation.constraints.NotNull;
-
-import static service.ViewService.referencesFile;
 
 public class View {
 
