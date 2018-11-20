@@ -1,11 +1,11 @@
-package service;
+package utility;
 
 import org.joda.time.DateTime;
 
 import static handler.ParameterHandler.checkArgs;
 import static utility.DateTimeUtil.parseDateTime;
 
-public final class TimeSlotService {
+public final class TimeSlotUtil {
 
     /**
      * Converts income strings into DateTime instances.

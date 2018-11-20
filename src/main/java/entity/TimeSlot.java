@@ -7,7 +7,7 @@ import org.joda.time.Interval;
 import java.util.Objects;
 import java.util.UUID;
 
-import static service.TimeSlotService.parseTimeBounds;
+import static utility.TimeSlotUtil.parseTimeBounds;
 import static handler.ParameterHandler.checkArgs;
 
 public class TimeSlot implements Comparable<TimeSlot>{

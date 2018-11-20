@@ -6,9 +6,9 @@ import org.testng.annotations.Test;
 
 import static org.joda.time.format.DateTimeFormat.forPattern;
 import static org.testng.Assert.*;
-import static service.TimeSlotService.parseTimeBounds;
+import static utility.TimeSlotUtil.parseTimeBounds;
 
-public class TimeSlotServiceTest {
+public class TimeSlotUtilTest {
 
     private static final String FORMATTER_TIME_PATTERN_DEF = "dd/MM/yyyy HH:mm";
 
