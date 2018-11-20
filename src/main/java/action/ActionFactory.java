@@ -31,7 +31,7 @@ public class ActionFactory {
         //more
     }
 
-    public static Action getAction(HttpServletRequest request) {
+    public static Action routeAction(HttpServletRequest request) {
         return actions.getOrDefault(request.getMethod() + request.getPathInfo(), null);
     }
 }

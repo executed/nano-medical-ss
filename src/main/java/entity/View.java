@@ -10,6 +10,8 @@ public class View {
     private boolean redirected = true;
     /** Is file in WEB-INF */
     private boolean pathClosed = false;
+    /** Status for response */
+    private Integer status;
 
     @NotNull private String path;
 
@@ -20,6 +22,10 @@ public class View {
     public boolean isForwarded() { return forwarded; }
 
     public boolean isRedirected() { return redirected; }
+
+    public boolean isPathClosed() { return pathClosed; }
+
+    public Integer getStatus(){ return this.status; }
 
     public void setRedirected(boolean redirected) {
         this.redirected = redirected;
@@ -35,7 +41,7 @@ public class View {
         this.redirected = !forwarded;
     }
 
-    public boolean isPathClosed() { return pathClosed; }
-
     public void setPathClosed(boolean pathClosed) {this.pathClosed = pathClosed; }
+
+    public void setStatus(int status){ this.status = status; }
 }
