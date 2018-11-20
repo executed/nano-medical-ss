@@ -4,6 +4,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
+import static action.AppointmentAction.REQUEST_TYPE.GET;
+import static action.AppointmentAction.REQUEST_TYPE.POST;
+
 public class ActionFactory {
 
     private static Map<String, Action> actions = new HashMap<>();
@@ -18,9 +21,13 @@ public class ActionFactory {
         actions.put("GET/client-profile", new ProfileAction());
 
         actions.put("GET/signout", new SignoutAction());
+        actions.put("GET/doctors", new DoctorsAction());
+        actions.put("GET/appointment", new AppointmentAction(GET));
         //other action
         actions.put("POST/signin.jsp", new LoginAction());
         actions.put("POST/signup.jsp", new SignupAction());
+        actions.put("POST/slot-action", new TimeSlotAction());
+        actions.put("POST/appointment", new AppointmentAction(POST));
         //more
     }
 

@@ -7,6 +7,7 @@ public class DoctorConfiguration {
 
     private Doctor doctor;
 
+    private String speciality;
     private DateTime startOfWork, endOfWork;
     private int maxDurationOfAppointment;
     private boolean maxDurationChangeable = true;
@@ -15,6 +16,8 @@ public class DoctorConfiguration {
     public DoctorConfiguration(Doctor doctor){
         this.doctor = doctor;
     }
+
+    public String getSpeciality(){ return this.speciality; }
 
     public DateTime getStartOfWork(){ return this.startOfWork; }
 
@@ -36,4 +39,6 @@ public class DoctorConfiguration {
     public void setMaxDurationChangeable(boolean changeable){
         this.maxDurationChangeable = changeable;
     }
+
+    public void setSpeciality(String speciality){  this.speciality = speciality; }
 }

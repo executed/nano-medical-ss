@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import java.io.IOException;
+
 import static utility.ClassNameUtil.getClassName;
 
 @WebServlet(name = "mainServlet", urlPatterns = "/nano-medical/*")
@@ -18,7 +20,7 @@ public class FrontController extends HttpServlet{
 
     private static final Logger LOG = LogManager.getLogger(getClassName());
 
-    protected void service(HttpServletRequest request, HttpServletResponse response) {
+    protected void service(HttpServletRequest request, HttpServletResponse response) throws IOException {
         System.out.println("pathinfo: "+request.getPathInfo());
         try {
             Action action = ActionFactory.getAction(request);
@@ -30,11 +32,11 @@ public class FrontController extends HttpServlet{
             View view = action.execute(request, response);
             if (view == null) return;
             System.out.println("OUT: "+view.getPath());
+            if (view.getPath() == null) return; //in case some js want's us to send response
             if (view.isRedirected()) response.sendRedirect(view.getPath());
             else request.getRequestDispatcher(view.getPath()).forward(request, response);
         } catch (Exception e){
-            LOG.trace("Something went wrong while obtaining request.", e);
-            //TODO: must redirect to error page
+            response.sendRedirect("/status/smth-wrong.jsp");
         }
     }
 }

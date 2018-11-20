@@ -1,6 +1,10 @@
 <%@ page import="entity.IUser" %>
 <%@ page import="entity.Client" %>
 <%@ page import="entity.TimeSlot" %>
+<%@ page import="dto.ClientProfileDTO" %>
+<%@ page import="java.util.Map" %>
+<%@ page import="entity.Doctor" %>
+<%@ page import="service.SessionService" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page session="true" %>
@@ -59,6 +63,7 @@
             } else {
             %> <jsp:forward page="status/404.jsp"/> <%
                 }%>
+                <% ClientProfileDTO dto = (ClientProfileDTO) session.getAttribute("dto"); %>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
@@ -66,47 +71,64 @@
 <!-- /.navbar -->
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h3 class="text-left" style="padding-top:100px;">Your Profile</h3>
+        <h3 class="text-left" style="padding-top:100px; font-style: italic">Your Profile</h3>
 
     </div>
     <div class="panel-body">
 
         <% Client client = (Client) session.getAttribute("user"); %>
-        <table class="table table-bordered">
+        <table class="table">
+            <thead class="thead-inverse">
+                <tr>
+                    <th> </th>
+                    <th> </th>
+                </tr>
+            </thead>
             <tbody>
 
             <tr>
-                <td>First Name</td>
+                <td><b>First Name</b></td>
                 <td><%= client.getFirstName() %></td>
             </tr>
             <tr>
-                <td>Last Name</td>
+                <td><b>Last Name</b></td>
                 <td><%= client.getLastName() %></td>
             </tr>
             <tr>
-                <td>Email</td>
+                <td><b>Email</b></td>
                 <td><%= client.getConfiguration().getEmail() %></td>
             </tr>
             <tr>
-                <td>Username</td>
+                <td><b>Username</b></td>
                 <td><%= client.getConfiguration().getUsername() %> </td>
             </tr>
             <tr>
-                <td>My Appointments</td>
                 <td>
-                    <table>
+                    <b>My Appointments  </b><a class="btn" style="font-weight: 200; color: grey" href="${pageContext.request.contextPath}/nano-medical/doctors" role="button">+</a>
+                </td>
+                <td>
+                    <table class="google-visualization-table-table">
+                        <thead style="color: darkblue">
                         <tr>
                             <th>Doctor</th>
                             <th>Speciality</th>
                             <th>Time</th>
+                            <th>Date</th>
+                            <th></th>
                         </tr>
-                        <%--<%for(TimeSlot slot: client.getTimeSlots()){%>
-                        <tr>
-                            <td> <%= "DoctorName" %> </td>
-                            <td> <%= "Doctor speciality" %> </td>
-                            <td> <%= slot.getStartTime().getHourOfDay() + ":" + slot.getEndTime() %> </td>
-                        </tr>
-                        <%}%>--%>
+                        </thead>
+                        <tbody>
+                        <% for (Map.Entry<TimeSlot, Doctor> entry: dto.getSlotDoctorMap().entrySet()){
+                            %> <tr>
+                                    <td><%=entry.getValue().getFullName()%></td>
+                                    <td><%=entry.getValue().getSpeciality()%></td>
+                                    <%String startTimeMin = entry.getKey().getStartTime().getMinuteOfHour() + "";%>
+                                    <td><%=entry.getKey().getStartTime().getHourOfDay() + ":" + ((startTimeMin.length() < 2) ? startTimeMin+="0" : startTimeMin)%></td>
+                                    <td><%= entry.getKey().getStartTime().getDayOfMonth()+ "/" + entry.getKey().getStartTime().getMonthOfYear() %></td>
+                                    <td><a class="btn" style="font-weight: 300" onclick="sendRemove('<%=entry.getKey().getId()%>')">Remove</a></td>
+                                </tr> <%
+                        }%>
+                        </tbody>
                     </table>
                 </td>
             </tr>
@@ -187,14 +209,26 @@
 
 </footer>
 
-
-
+<script>
+    function sendRemove(id) {
+        const Url = '${pageContext.request.contextPath}/nano-medical/slot-action';
+        const data={
+            id:id,
+            action:"REMOVE"
+        }
+        $.post(Url, data, function () {
+            alert("Time slot removed");
+            location.reload(true);
+        });
+    }
+</script>
 <!-- JavaScript libs are placed at the end of the document so the pages load faster -->
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
 <script src="../assets/js/headroom.min.js"></script>
 <script src="../assets/js/jQuery.headroom.min.js"></script>
 <script src="../assets/js/template.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 
 </html>

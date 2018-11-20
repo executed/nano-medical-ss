@@ -48,6 +48,7 @@ public class DoctorDao implements IDao{
             statement.setObject(3, new Timestamp(doctor.getEndOfWork().getMillis()));
             statement.setInt(4, doctor.getMaxDurationOfAppointment());
             statement.setBoolean(5, doctor.isMaxDurationChangeable());
+            statement.setString(6, doctor.getSpeciality());
 
             if (statement.executeUpdate() == 0){
                 deleteById(savedDoctorId);
@@ -76,7 +77,8 @@ public class DoctorDao implements IDao{
             statement2.setObject(2, new Timestamp(doctor.getEndOfWork().getMillis()));
             statement2.setInt(3, doctor.getMaxDurationOfAppointment());
             statement2.setBoolean(4, doctor.isMaxDurationChangeable());
-            statement2.setObject(5, doctor.getId());
+            statement.setString(5, doctor.getSpeciality());
+            statement2.setObject(6, doctor.getId());
             statement2.executeUpdate();
 
             connection.commit();
@@ -111,9 +113,10 @@ public class DoctorDao implements IDao{
                                             .setFirstName(resultSet.getString("first_name"))
                                             .setLastName(resultSet.getString("last_name"))
                                             .setWorkTimeBounds(new DateTime(((Timestamp)resultSet.getObject("start_work")).getTime()),
-                                                               new DateTime(((Timestamp)resultSet.getObject("start_work")).getTime()))
+                                                               new DateTime(((Timestamp)resultSet.getObject("end_work")).getTime()))
                                             .setMaxDurationOfAppointment(resultSet.getInt("max_app_duration"))
                                             .setMaxDurationOfAppointmentChangeable(resultSet.getBoolean("max_app_not_fixed"))
+                                            .setSpeciality(resultSet.getString("speciality"))
                                             .build();
                 LOGGER.trace("Doctor with id {} was get successfully.", id);
             }
@@ -134,9 +137,10 @@ public class DoctorDao implements IDao{
                                                .setFirstName(resultSet.getString("first_name"))
                                                .setLastName(resultSet.getString("last_name"))
                                                .setWorkTimeBounds(new DateTime(((Timestamp)resultSet.getObject("start_work")).getTime()),
-                                                                  new DateTime(((Timestamp)resultSet.getObject("start_work")).getTime()))
+                                                                  new DateTime(((Timestamp)resultSet.getObject("end_work")).getTime()))
                                                .setMaxDurationOfAppointment(resultSet.getInt("max_app_duration"))
                                                .setMaxDurationOfAppointmentChangeable(resultSet.getBoolean("max_app_not_fixed"))
+                                               .setSpeciality(resultSet.getString("speciality"))
                                                .build());
             }
             LOGGER.trace("{} doctors were get successfully", doctors.size());

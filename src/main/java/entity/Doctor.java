@@ -53,6 +53,8 @@ public class Doctor implements IUser{
         return this.configuration.isMaxDurationChangeable();
     }
 
+    public String getSpeciality(){ return this.configuration.getSpeciality(); }
+
     public DoctorConfiguration getConfiguration() { return this.configuration; }
 
     public TreeSet<TimeSlot> getTimeSlots(){ return this.timeSlots; }
@@ -116,6 +118,11 @@ public class Doctor implements IUser{
 
         public DoctorBuilder setMaxDurationOfAppointmentChangeable(boolean status){
             this.doctor.configuration.setMaxDurationChangeable(status);
+            return this;
+        }
+
+        public DoctorBuilder setSpeciality(String speciality){
+            this.doctor.configuration.setSpeciality(speciality);
             return this;
         }
 

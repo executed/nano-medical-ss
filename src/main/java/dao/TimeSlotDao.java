@@ -1,5 +1,6 @@
 package dao;
 
+import entity.Client;
 import entity.TimeSlot;
 import entity.TimeSlot.TimeSlotBuilder;
 import org.apache.logging.log4j.LogManager;
@@ -108,6 +109,29 @@ public class TimeSlotDao implements IDao{
             LOGGER.trace("{} TimeSlot were get from database", resultSlots.size());
         } catch (SQLException e) {
             LOGGER.info("Something went wrong while getting all TimeSlot instances from database", e);
+        }
+        return resultSlots;
+    }
+
+    public TreeSet<TimeSlot> getByIUserId(UUID id, Class type){
+        TreeSet<TimeSlot> resultSlots = new TreeSet<>();
+        LOGGER.trace("Started getting all TimeSlot by IUser id {} from database", id);
+        try {
+            String queryName = (type.equals(Client.class)) ? "timeslot.selectByClientId" : "timeslot.selectByDoctorId";
+            PreparedStatement statement = connection.prepareStatement(getQuery(queryName));
+            statement.setObject(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                resultSlots.add(new TimeSlotBuilder().setId((UUID) resultSet.getObject("id"))
+                        .setClientId((UUID) resultSet.getObject("client_id"))
+                        .setDoctorId((UUID) resultSet.getObject("doctor_id"))
+                        .setBounds(new DateTime(((Timestamp) resultSet.getObject("start_time")).getTime()),
+                                new DateTime(((Timestamp) resultSet.getObject("end_time")).getTime()))
+                        .build());
+            }
+            LOGGER.trace("{} TimeSlot by IUser with id {} were get from database", resultSlots.size(), id);
+        } catch (SQLException e) {
+            LOGGER.info("Something went wrong while getting TimeSlot instances by IUser with id {} from database", id, e);
         }
         return resultSlots;
     }

@@ -22,4 +22,9 @@ public class SessionService {
         HttpSession session = request.getSession(false);
         session.invalidate();
     }
+
+    public static void attachObj(HttpServletRequest req, String name, Object object){
+        HttpSession session = req.getSession(false);
+        session.setAttribute(name, object);
+    }
 }

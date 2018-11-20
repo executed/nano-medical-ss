@@ -32,9 +32,7 @@ public class View {
 
     public String getPath() { return path; }
 
-    public void setPath(String path) {
-        this.path = path;
-    }
+    public void setPath(String path) { this.path = path; }
 
     public void setForwarded(boolean forwarded) {
         this.forwarded = forwarded;

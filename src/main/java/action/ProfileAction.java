@@ -1,15 +1,18 @@
 package action;
 
 import dao.ClientDao;
-import entity.Client;
-import entity.Doctor;
-import entity.IUser;
-import entity.View;
+import dao.DoctorDao;
+import dao.TimeSlotDao;
+import dto.ClientProfileDTO;
+import entity.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import service.SessionService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import java.util.TreeSet;
 
 import static dao.DaoCache.getCache;
 import static utility.ClassNameUtil.getClassName;
@@ -17,8 +20,13 @@ import static utility.ClassNameUtil.getClassName;
 public class ProfileAction implements Action{
 
     private static final Logger LOG = LogManager.getLogger(getClassName());
+    //dao's
     private static ClientDao clientDB =
             (ClientDao) getCache().getDao(ClientDao.class.getName());
+    private static TimeSlotDao timeSlotDB =
+            (TimeSlotDao) getCache().getDao(TimeSlotDao.class.getName());
+    private static DoctorDao doctorDB =
+            (DoctorDao) getCache().getDao(DoctorDao.class.getName());
     //servlet instances
     private HttpServletRequest req;
     private HttpServletResponse resp;
@@ -42,8 +50,19 @@ public class ProfileAction implements Action{
     }
 
     private View resolveClient(IUser user){
-        Client client = (Client) (Client) user;
-        //some resolving of client ;))
+        Client client = (Client) user;
+
+        ClientProfileDTO dto = new ClientProfileDTO();
+        dto.setClient(client);
+
+        TreeSet<TimeSlot> slots = timeSlotDB.getByIUserId(client.getId(), Client.class);
+        //setting entries ( TimeSlot - Doctor )
+        for (TimeSlot slot: slots){
+            Doctor slotDoctor = doctorDB.getById(slot.getDoctorId());
+            dto.addSlotDoctorMapEntry(slot, slotDoctor);
+        }
+        //adding dto to session
+        SessionService.attachObj(req, "dto", dto);
 
         View view = new View(true);
         view.setPath("/client-profile.jsp");

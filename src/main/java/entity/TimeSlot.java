@@ -57,8 +57,11 @@ public class TimeSlot implements Comparable<TimeSlot>{
     }
 
     public boolean contains(TimeSlot slot){
-        int resultStartTime = this.startTime.compareTo(slot.startTime);
-        int resultEndTime = this.endTime.compareTo(slot.endTime);
+        //creating new DateTime instances to prevent bad results by timeslots with different date
+        int resultEndTime = new DateTime().withHourOfDay(endTime.getHourOfDay()).withMinuteOfHour(endTime.getMinuteOfHour())
+                              .compareTo(new DateTime().withHourOfDay(slot.endTime.getHourOfDay()).withMinuteOfHour(slot.endTime.getMinuteOfHour()));
+        int resultStartTime = new DateTime().withHourOfDay(startTime.getHourOfDay()).withMinuteOfHour(startTime.getMinuteOfHour())
+                              .compareTo(new DateTime().withHourOfDay(slot.startTime.getHourOfDay()).withMinuteOfHour(slot.startTime.getMinuteOfHour()));
         return resultStartTime <= 0 && resultEndTime >= 0;
     }
 
