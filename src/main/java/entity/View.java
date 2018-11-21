@@ -13,10 +13,12 @@ public class View {
     private boolean pathClosed = false;
     /** Status for response */
     private Integer status;
-    /** Attributes, that contains error messages */
+    /** Attributes, that contain error messages */
     private HashMap<String, String> errorAttributes = new HashMap<>();
-    /**  */
+    /** Attributes, that contain session important data */
     private HashMap<String, Object> sessionAttributes = new HashMap<>();
+    /** Attributes, that are temporary stored to use them in jsp files */
+    private HashMap<String, Object> requestAttributes = new HashMap<>();
 
     @NotNull private String path;
 
@@ -39,6 +41,10 @@ public class View {
     public HashMap<String, Object> getSessionAttributes() { return this.sessionAttributes; }
 
     public Object getSessionAttribute(String key){ return this.sessionAttributes.get(key); }
+
+    public HashMap<String, Object> getRequestAttributes(){ return this.requestAttributes; }
+
+    public Object getRequestAttribute(String key){ return this.requestAttributes.get(key); }
 
     public void setRedirected(boolean redirected) {
         this.redirected = redirected;
@@ -64,5 +70,9 @@ public class View {
 
     public void putSessionAttribute(String attr, Object value){
         this.sessionAttributes.put(attr, value);
+    }
+
+    public void putRequestAttribute(String attr, Object value){
+        this.requestAttributes.put(attr, value);
     }
 }
