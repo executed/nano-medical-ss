@@ -5,7 +5,9 @@ import dao.ClientDao;
 import dto.LoginDTO;
 import entity.Client;
 import entity.Client.ClientBuilder;
+import entity.IUser;
 import entity.View;
+import service.LoginActionService;
 import utility.SessionUtil;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,38 +22,15 @@ public class LoginAction implements Action{
     private static ClientDao clientDB =
             (ClientDao) getCache().getDao(ClientDao.class.getName());
 
-    public View execute(HttpServletRequest request, HttpServletResponse response) throws Exception{
+    public View execute(HttpServletRequest request, HttpServletResponse response){
 
-        boolean error = true;
         LoginDTO dto = new LoginDTO(request);
+        View view = new LoginActionService().resolveView(dto);
 
-        ClientConfiguration clientConfig =
-                clientDB.getClientConfigByUsername(dto.getUsername());
-
-        if (!hasErrors(dto, clientConfig, request)){
-            //initializing client with data from database
-            Client client = clientDB.getById(clientConfig.getId());
-            new ClientBuilder(client).setConfig(clientConfig);
-            //setting request attributes for jsp
-            request.setAttribute("client", client);
-            request.setAttribute("clientConfig", clientConfig);
-            error = false;
-            SessionUtil.attachUser(request, client);
-        }
-        View view = new View(true);
-        view.setRedirected(!error);
-        view.setPathClosed(error);
-        view.setPath((error) ? "/signin.jsp" : "/");
+        view.getErrorAttributes().forEach(request::setAttribute);
+        IUser client = (Client) view.getSessionAttribute("user");
+        if (client != null) SessionUtil.attachUser(request, client);
 
         return view;
-    }
-
-    private boolean hasErrors(LoginDTO dto, ClientConfiguration config, HttpServletRequest req){
-
-        boolean validationStatus = getDefValidator().validate(dto).size() == 0;
-        if (config == null || !config.getPassword().equals(dto.getPassword()) || !validationStatus){
-            req.setAttribute("errorMessage", USERNAME_OR_PASS_WRONG);
-            return true;
-        } else return false;
     }
 }
