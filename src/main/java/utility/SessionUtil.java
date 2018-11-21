@@ -27,4 +27,13 @@ public class SessionUtil {
         HttpSession session = req.getSession(false);
         session.setAttribute(name, object);
     }
+
+    public static void detachObj(HttpServletRequest req, String name){
+        HttpSession session = req.getSession(false);
+        session.removeAttribute(name);
+    }
+
+    public static boolean checkIfLoggedIn(HttpServletRequest req){
+        return req.getSession(false).getAttribute("user") != null;
+    }
 }

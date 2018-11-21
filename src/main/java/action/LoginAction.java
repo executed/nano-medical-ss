@@ -19,17 +19,14 @@ import static validation.ValidatorCache.getDefValidator;
 
 public class LoginAction implements Action{
 
-    private static ClientDao clientDB =
-            (ClientDao) getCache().getDao(ClientDao.class.getName());
-
     public View execute(HttpServletRequest request, HttpServletResponse response){
 
         LoginDTO dto = new LoginDTO(request);
         View view = new LoginActionService().resolveView(dto);
 
         view.getErrorAttributes().forEach(request::setAttribute);
-        IUser client = (Client) view.getSessionAttribute("user");
-        if (client != null) SessionUtil.attachUser(request, client);
+        IUser user = (IUser) view.getSessionAttribute("user");
+        if (user != null) SessionUtil.attachUser(request, user);
 
         return view;
     }

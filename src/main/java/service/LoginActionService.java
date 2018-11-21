@@ -1,9 +1,12 @@
 package service;
 
 import configuration.ClientConfiguration;
+import configuration.DoctorConfiguration;
 import dto.LoginDTO;
 import entity.Client;
 import entity.Client.ClientBuilder;
+import entity.IUser;
+import entity.Role;
 import entity.View;
 
 import javax.validation.ConstraintViolation;
@@ -18,28 +21,43 @@ public class LoginActionService {
 
     public View resolveView(LoginDTO dto){
 
-        String error;
-        ClientDBService dbService = new ClientDBService();
-        ClientConfiguration configByUsername =
-                            dbService.getClientConfigByUsername(dto.getUsername());
-        error = getError(dto, configByUsername);
-        Client client = null;
-        if (error == null){
-            client = dbService.getClientById(configByUsername.getId());
-            new ClientBuilder(client).setConfig(configByUsername);
+        String clientError, doctorError;
+        ClientDBService clientDbService = new ClientDBService();
+        DoctorDBService doctorDBService = new DoctorDBService();
+        ClientConfiguration clientConfigByUsername =
+                            clientDbService.getClientConfigByUsername(dto.getUsername());
+        DoctorConfiguration doctorConfigByUsername =
+                            doctorDBService.getDoctorConfigByUsername(dto.getUsername());
+        clientError = getClientError(dto, clientConfigByUsername);
+        doctorError = getDoctorError(dto, doctorConfigByUsername);
+
+        IUser user = null;
+        View view = new View(true);
+        boolean errorStatus = false;//REMOVE
+        if (clientError == null){
+            user = clientDbService.getClientById(clientConfigByUsername.getId());
+            new ClientBuilder((Client) user).setConfig(clientConfigByUsername);
+
+            view.putSessionAttribute("clientConfig", clientConfigByUsername);
+        }
+        else if (doctorError == null){
+            user = doctorDBService.getById(doctorConfigByUsername.getId());
+        }
+        else{
+            view.putErrorAttribute("errorMessage", clientError);
+            errorStatus = true;
         }
 
-        View view = new View(true);
-        view.setRedirected(error == null);
-        view.putErrorAttribute("errorMessage", error);
-        view.putSessionAttribute("user", client);
-        view.putSessionAttribute("clientConfig", configByUsername);
-        view.setPath((error == null) ? BASE : SIGNIN);
+        view.setRedirected(clientError == null);
+        view.putSessionAttribute("user", user);
+        view.putSessionAttribute("role",
+                                 checkRole(clientConfigByUsername, doctorConfigByUsername));
 
+        view.setPath((!errorStatus) ? BASE : SIGNIN);
         return view;
     }
 
-    private String getError(LoginDTO dto, ClientConfiguration configByUsername){
+    private String getClientError(LoginDTO dto, ClientConfiguration configByUsername){
 
         if (configByUsername == null) return USERNAME_OR_PASS_WRONG;
         boolean error1 = !validateDTO(dto);
@@ -55,5 +73,21 @@ public class LoginActionService {
 
     private boolean passwordsEquals(String password1, String password2){
         return password1.equals(password2);
+    }
+
+    private String getDoctorError(LoginDTO dto, DoctorConfiguration configByUsername){
+        if (configByUsername == null) return USERNAME_OR_PASS_WRONG;
+        boolean error1 = !validateDTO(dto);
+        boolean error2 = !passwordsEquals(dto.getPassword(), configByUsername.getPassword());
+        if (error1 || error2) return USERNAME_OR_PASS_WRONG;
+        else return null;
+    }
+
+    private Role checkRole(ClientConfiguration clientConfig, DoctorConfiguration doctorConfig){
+        if (clientConfig != null) return Role.CLIENT;
+        if (doctorConfig != null) return Role.DOCTOR;
+        //must be admin
+
+        throw new IllegalArgumentException("Role wasn't recognized");
     }
 }

@@ -55,6 +55,10 @@ public class Doctor implements IUser{
 
     public String getSpeciality(){ return this.configuration.getSpeciality(); }
 
+    public String getUsername(){ return this.configuration.getUsername(); }
+
+    public String getPassword(){ return this.configuration.getPassword(); }
+
     public DoctorConfiguration getConfiguration() { return this.configuration; }
 
     public TreeSet<TimeSlot> getTimeSlots(){ return this.timeSlots; }
@@ -123,6 +127,21 @@ public class Doctor implements IUser{
 
         public DoctorBuilder setSpeciality(String speciality){
             this.doctor.configuration.setSpeciality(speciality);
+            return this;
+        }
+
+        public DoctorBuilder setConfigurationId(UUID id){
+            this.doctor.configuration.setId(id);
+            return this;
+        }
+
+        public DoctorBuilder setUsername(String username){
+            this.doctor.configuration.setUsername(username);
+            return this;
+        }
+
+        public DoctorBuilder setPassword(String password){
+            this.doctor.configuration.setPassword(password);
             return this;
         }
 

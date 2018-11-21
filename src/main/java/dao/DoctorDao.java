@@ -1,5 +1,6 @@
 package dao;
 
+import configuration.DoctorConfiguration;
 import entity.Doctor;
 import entity.Doctor.DoctorBuilder;
 import org.apache.logging.log4j.Logger;
@@ -49,6 +50,8 @@ public class DoctorDao implements IDao{
             statement.setInt(4, doctor.getMaxDurationOfAppointment());
             statement.setBoolean(5, doctor.isMaxDurationChangeable());
             statement.setString(6, doctor.getSpeciality());
+            statement.setString(7, doctor.getUsername());
+            statement.setString(8, doctor.getPassword());
 
             if (statement.executeUpdate() == 0){
                 deleteById(savedDoctorId);
@@ -78,7 +81,9 @@ public class DoctorDao implements IDao{
             statement2.setInt(3, doctor.getMaxDurationOfAppointment());
             statement2.setBoolean(4, doctor.isMaxDurationChangeable());
             statement.setString(5, doctor.getSpeciality());
-            statement2.setObject(6, doctor.getId());
+            statement.setString(6, doctor.getUsername());
+            statement.setString(7, doctor.getPassword());
+            statement2.setObject(8, doctor.getId());
             statement2.executeUpdate();
 
             connection.commit();
@@ -117,6 +122,9 @@ public class DoctorDao implements IDao{
                                             .setMaxDurationOfAppointment(resultSet.getInt("max_app_duration"))
                                             .setMaxDurationOfAppointmentChangeable(resultSet.getBoolean("max_app_not_fixed"))
                                             .setSpeciality(resultSet.getString("speciality"))
+                                            .setConfigurationId(id)
+                                            .setUsername(resultSet.getString("username"))
+                                            .setPassword(resultSet.getString("password"))
                                             .build();
                 LOGGER.trace("Doctor with id {} was get successfully.", id);
             }
@@ -141,6 +149,10 @@ public class DoctorDao implements IDao{
                                                .setMaxDurationOfAppointment(resultSet.getInt("max_app_duration"))
                                                .setMaxDurationOfAppointmentChangeable(resultSet.getBoolean("max_app_not_fixed"))
                                                .setSpeciality(resultSet.getString("speciality"))
+                                               .setId((UUID) resultSet.getObject("id"))
+                                               .setConfigurationId((UUID) resultSet.getObject("id"))
+                                               .setUsername(resultSet.getString("username"))
+                                               .setPassword(resultSet.getString("password"))
                                                .build());
             }
             LOGGER.trace("{} doctors were get successfully", doctors.size());
@@ -167,6 +179,33 @@ public class DoctorDao implements IDao{
             LOGGER.info("Getting all doctors without configuration failed", e);
         }
         return doctors;
+    }
+
+    public DoctorConfiguration getDoctorConfigByUsername(String username){
+        LOGGER.trace("Started getting doctor configuration with username {} from database.", username);
+        DoctorConfiguration result = null;
+        try {
+            PreparedStatement statement = connection.prepareStatement(getQuery("doctorConfig.selectByUsername"));
+            statement.setString(1, username);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()){
+                Doctor doctor =
+                        new Doctor.DoctorBuilder().setWorkTimeBounds(new DateTime(((Timestamp)resultSet.getObject("start_work")).getTime()),
+                                                                     new DateTime(((Timestamp)resultSet.getObject("end_work")).getTime()))
+                                                  .setMaxDurationOfAppointment(resultSet.getInt("max_app_duration"))
+                                                  .setMaxDurationOfAppointmentChangeable(resultSet.getBoolean("max_app_not_fixed"))
+                                                  .setSpeciality(resultSet.getString("speciality"))
+                                                  .setConfigurationId((UUID) resultSet.getObject("id"))
+                                                  .setUsername(resultSet.getString("username"))
+                                                  .setPassword(resultSet.getString("password"))
+                                                  .build();
+                result = doctor.getConfiguration();
+                LOGGER.trace("Getting doctor configuration with username {} from database successfull", username);
+            }
+        } catch (SQLException e){
+            LOGGER.info("Getting doctor configuration with username {} from database failed", username, e);
+        }
+        return result;
     }
 
     public void deleteById(UUID id){

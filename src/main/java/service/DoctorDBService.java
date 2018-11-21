@@ -1,5 +1,6 @@
 package service;
 
+import configuration.DoctorConfiguration;
 import dao.DoctorDao;
 import entity.Doctor;
 
@@ -19,5 +20,9 @@ public class DoctorDBService {
 
     public Doctor getById(UUID id){
         return doctorDB.getById(id);
+    }
+
+    public DoctorConfiguration getDoctorConfigByUsername(String username){
+        return doctorDB.getDoctorConfigByUsername(username);
     }
 }

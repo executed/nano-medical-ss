@@ -1,5 +1,6 @@
 package action;
 
+import constant.URL_CONSTANT;
 import dao.DoctorDao;
 import dao.TimeSlotDao;
 import dto.AppointmentDTO;
@@ -14,6 +15,7 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import service.DoctorService;
+import utility.SessionUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -46,6 +48,11 @@ public class AppointmentAction implements Action{
         this.req = request;
         this.resp = response;
 
+        if (!SessionUtil.checkIfLoggedIn(req)){
+            View view = new View();
+            view.setPath(URL_CONSTANT.SIGNIN);
+            return view;
+        }
         return resolveRequest();
     }
 
@@ -72,6 +79,8 @@ public class AppointmentAction implements Action{
         return view;
     }
 
+
+
     private View resolveFreeSlotsRequest() throws NoOverlapException {
         UUID doctorId = UUID.fromString(req.getParameter("doctor_id"));
         Doctor doctor = doctorDB.getById(doctorId);
@@ -87,23 +96,7 @@ public class AppointmentAction implements Action{
                                                             new DateTime(endTime))
                                                             .build();
         DoctorService service = new DoctorService(doctorDB.getById(doctorId));
-        /*TreeSet<TimeSlot> freeSlots = service.getFreeSlots(timeSlot);*/
-
-        /////////REMOVE
-        TreeSet<TimeSlot> freeSlots = new TreeSet<>();
-        freeSlots.add(new TimeSlotBuilder().setClientId(UUID.fromString("03e08df0-b835-4fd8-aa4d-d144570e349d"))
-                .setDoctorId(UUID.fromString("c1a565cb-1bf9-4e7e-9068-7a54252ae44f"))
-                .setBounds("12:30", "12:50")
-                .build());
-        freeSlots.add(new TimeSlotBuilder().setClientId(UUID.fromString("03e08df0-b835-4fd8-aa4d-d144570e349d"))
-                .setDoctorId(UUID.fromString("c1a565cb-1bf9-4e7e-9068-7a54252ae44f"))
-                .setBounds("13:40", "14:00")
-                .build());
-        freeSlots.add(new TimeSlotBuilder().setClientId(UUID.fromString("03e08df0-b835-4fd8-aa4d-d144570e349d"))
-                .setDoctorId(UUID.fromString("c1a565cb-1bf9-4e7e-9068-7a54252ae44f"))
-                .setBounds("15:10", "15:20")
-                .build());
-        ///////////////
+        TreeSet<TimeSlot> freeSlots = service.getFreeSlots(timeSlot);
 
         req.setAttribute("freeSlots", freeSlots);
         req.setAttribute("doctor", doctor);
