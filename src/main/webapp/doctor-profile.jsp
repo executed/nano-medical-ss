@@ -1,11 +1,8 @@
-<%@ page import="entity.IUser" %>
-<%@ page import="entity.Client" %>
-<%@ page import="entity.TimeSlot" %>
 <%@ page import="dto.ClientProfileOutputDTO" %>
 <%@ page import="java.util.Map" %>
-<%@ page import="entity.Doctor" %>
 <%@ page import="utility.SessionUtil" %>
 <%@ page import="dto.DoctorProfileOutputDTO" %>
+<%@ page import="entity.*" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page session="true" %>
@@ -39,6 +36,9 @@
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 </head>
 <body>
+<% if ((request.getSession(false).getAttribute("role")) != Role.DOCTOR){
+    %> <jsp:forward page="status/404.jsp"/> <%
+    }%>
 <!-- Fixed navbar -->
 <jsp:include page="wrapper/nav-bar.jsp"/>
 <!-- /.navbar -->
@@ -84,7 +84,7 @@
             </tr>
             <tr>
                 <td>
-                    <b>My Appointments  </b><a class="btn" style="font-weight: 200; color: grey" href="${pageContext.request.contextPath}/nano-medical/doctors" role="button">+</a>
+                    <b>My Appointments  </b>
                 </td>
                 <td>
                     <table class="google-visualization-table-table">

@@ -133,8 +133,8 @@
                         <tbody class="table-hover">
                             <% if (freeSlots != null){
                                 for (TimeSlot freeSlot: (TreeSet<TimeSlot>) freeSlots){
-                                String startTime = freeSlot.getStartTime().getHourOfDay()+":"+(((String.valueOf(freeSlot.getStartTime().getMinuteOfHour())).length() < 2) ? freeSlot.getStartTime().getMinuteOfHour() : freeSlot.getStartTime().getMinuteOfHour());
-                                String endTime = freeSlot.getEndTime().getHourOfDay()+":"+(((String.valueOf(freeSlot.getEndTime().getMinuteOfHour())).length() < 2) ? freeSlot.getEndTime().getMinuteOfHour() : freeSlot.getEndTime().getMinuteOfHour());
+                                String startTime = freeSlot.getStartTime().getHourOfDay()+":"+(((String.valueOf(freeSlot.getStartTime().getMinuteOfHour())).length() < 2) ? ("0" + freeSlot.getStartTime().getMinuteOfHour()) : freeSlot.getStartTime().getMinuteOfHour());
+                                String endTime = freeSlot.getEndTime().getHourOfDay()+":"+(((String.valueOf(freeSlot.getEndTime().getMinuteOfHour())).length() < 2) ? ("0" + freeSlot.getEndTime().getMinuteOfHour()) : freeSlot.getEndTime().getMinuteOfHour());
                                 String year = String.valueOf(freeSlot.getEndTime().getYear());
                                 String month = String.valueOf(freeSlot.getEndTime().getMonthOfYear());
                                 String day = String.valueOf(freeSlot.getEndTime().getDayOfMonth());
@@ -241,6 +241,9 @@
                 if(this.status == 532) {
                     alert("This time is closed, take other");
                     window.location.replace('${pageContext.request.contextPath}/nano-medical/appointment?status=free_slots&doctor_id='+$("#doctor_id")[0].value+'&time='+$("#date")[0].value+" "+$("#time")[0].value+"&dif="+$("#duration")[0].value);
+                }
+                if (this.status == 600){
+                    alert("Bad time");
                 }
             }
         }

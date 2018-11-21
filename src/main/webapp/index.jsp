@@ -1,4 +1,6 @@
 <%@ page import="entity.IUser" %>
+<%@ page import="entity.Role" %>
+<%@ page import="entity.Client" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page session="true" %>
@@ -12,20 +14,20 @@
 
     <title>Nano Medical - Progressive Medical Center</title>
 
-    <link rel="shortcut icon" href="../assets/images/gt_favicon.png">
+    <link rel="shortcut icon" href="${pageContext.request.contextPath}/assets/images/gt_favicon.png">
 
     <link rel="stylesheet" media="screen" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
-    <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/font-awesome.min.css">
 
     <!-- Custom styles for our template -->
-    <link rel="stylesheet" href="../assets/css/bootstrap-theme.css" media="screen" >
-    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/bootstrap-theme.css" media="screen" >
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/main.css">
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
-    <script src="../assets/js/html5shiv.js"></script>
-    <script src="../assets/js/respond.min.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/js/html5shiv.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/js/respond.min.js"></script>
     <![endif]-->
 </head>
 
@@ -40,7 +42,7 @@
                 <p>
                     <input formaction="../about.jsp" class="btn btn-default btn-lg" role="button" type="submit" name = "More" value="MORE INFO">
                     <% if (session.getAttribute("user") != null) {
-                    %> <input formaction="/nano-medical/client-profile" class="btn btn-action btn-lg" role="button" type="submit" name = "Download" value="Profile">  <%
+                    %> <input formaction="/nano-medical/<%= (((Role) session.getAttribute("role")) == Role.CLIENT) ? "client-profile" : "doctor-profile"%>" class="btn btn-action btn-lg" role="button" type="submit" name = "Download" value="Profile">  <%
                        } else {
                     %> <input formaction="../signup.jsp" class="btn btn-action btn-lg" role="button" type="submit" name = "Download" value="Register"> <%
                     }%>
@@ -207,10 +209,10 @@
                     <div class="widget-body">
                         <p class="simplenav">
                             <a href="#">Home</a> |
-                            <a href="../about.jsp">About</a> |
-                            <a href="../sidebar-right.html">Sidebar</a> |
-                            <a href="../contact.jsp">Contact</a> |
-                            <b><a href="../signup.jsp">Sign up</a></b>
+                            <a href="${pageContext.request.contextPath}/about.jsp">About</a> |
+                            <a href="${pageContext.request.contextPath}/sidebar-right.html">Sidebar</a> |
+                            <a href="${pageContext.request.contextPath}/contact.jsp">Contact</a> |
+                            <b><a href="${pageContext.request.contextPath}/signup.jsp">Sign up</a></b>
                         </p>
                     </div>
                 </div>
@@ -234,8 +236,8 @@
 <!-- JavaScript libs are placed at the end of the document so the pages load faster -->
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
-<script src="../assets/js/headroom.min.js"></script>
-<script src="../assets/js/jQuery.headroom.min.js"></script>
-<script src="../assets/js/template.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/headroom.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/jQuery.headroom.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/template.js"></script>
 </body>
 </html>

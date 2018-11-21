@@ -145,6 +145,11 @@ public class Doctor implements IUser{
             return this;
         }
 
+        public DoctorBuilder addTimeSlot(TimeSlot slot){
+            this.doctor.timeSlots.add(slot);
+            return this;
+        }
+
         public Doctor build(){ return this.doctor; }
     }
 }

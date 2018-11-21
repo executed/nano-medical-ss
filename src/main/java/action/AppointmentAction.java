@@ -6,6 +6,7 @@ import dao.TimeSlotDao;
 import dto.AppointmentDTO;
 import entity.Client;
 import entity.Doctor;
+import entity.Doctor.DoctorBuilder;
 import entity.TimeSlot;
 import entity.TimeSlot.TimeSlotBuilder;
 import entity.View;
@@ -95,7 +96,13 @@ public class AppointmentAction implements Action{
                                                  .setBounds(new DateTime(startTime),
                                                             new DateTime(endTime))
                                                             .build();
-        DoctorService service = new DoctorService(doctorDB.getById(doctorId));
+        DoctorBuilder doctorBuilder = new DoctorBuilder(doctor);
+
+        for (TimeSlot slot: timeSlotDB.getByIUserId(doctorId, Doctor.class)){
+            doctorBuilder.addTimeSlot(slot);
+        }
+
+        DoctorService service = new DoctorService(doctor);
         TreeSet<TimeSlot> freeSlots = service.getFreeSlots(timeSlot);
 
         req.setAttribute("freeSlots", freeSlots);
@@ -107,6 +114,11 @@ public class AppointmentAction implements Action{
 
     private View resolvePostRequest() throws DoctorWorkTimeException, NoOverlapException, IOException {
         AppointmentDTO dto = new AppointmentDTO(req);
+
+        if (dto.getStartTime().isBeforeNow()){
+            resp.setStatus(600);
+            return new View();
+        }
 
         Doctor doctor = doctorDB.getById(dto.getDoctorId());
         //adding TimeSlot's to doctor
