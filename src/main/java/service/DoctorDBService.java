@@ -4,6 +4,7 @@ import dao.DoctorDao;
 import entity.Doctor;
 
 import java.util.HashSet;
+import java.util.UUID;
 
 import static dao.DaoCache.getCache;
 
@@ -14,5 +15,9 @@ public class DoctorDBService {
 
     public HashSet<Doctor> getAll(){
         return doctorDB.getAll();
+    }
+
+    public Doctor getById(UUID id){
+        return doctorDB.getById(id);
     }
 }

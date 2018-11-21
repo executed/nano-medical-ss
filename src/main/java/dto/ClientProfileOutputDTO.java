@@ -7,7 +7,7 @@ import entity.TimeSlot;
 import java.util.HashMap;
 import java.util.TreeSet;
 
-public class ClientProfileDTO {
+public class ClientProfileOutputDTO implements UserProfileOutputDTO{
 
     private Client client;
     private HashMap<TimeSlot, Doctor> slotDoctorMap = new HashMap<>();
@@ -21,4 +21,7 @@ public class ClientProfileDTO {
     public Client getClient() { return this.client; }
 
     public HashMap<TimeSlot, Doctor> getSlotDoctorMap() { return this.slotDoctorMap; }
+
+    @Override
+    public String getClassName() { return this.getClass().getName(); }
 }

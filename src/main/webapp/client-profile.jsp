@@ -1,7 +1,7 @@
 <%@ page import="entity.IUser" %>
 <%@ page import="entity.Client" %>
 <%@ page import="entity.TimeSlot" %>
-<%@ page import="dto.ClientProfileDTO" %>
+<%@ page import="dto.ClientProfileOutputDTO" %>
 <%@ page import="java.util.Map" %>
 <%@ page import="entity.Doctor" %>
 <%@ page import="utility.SessionUtil" %>
@@ -63,7 +63,7 @@
             } else {
             %> <jsp:forward page="status/404.jsp"/> <%
                 }%>
-                <% ClientProfileDTO dto = (ClientProfileDTO) session.getAttribute("dto"); %>
+                <% ClientProfileOutputDTO dto = (ClientProfileOutputDTO) session.getAttribute("dto"); %>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
