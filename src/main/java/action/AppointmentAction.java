@@ -127,17 +127,14 @@ public class AppointmentAction implements Action{
         DoctorService service = new DoctorService(doctor);
         boolean status = service.addTimeSlot(timeSlot);
 
-        /*if (!status){
+        if (!status){
             TreeSet<TimeSlot> freeSlots = service.getFreeSlots(timeSlot);
             req.setAttribute("freeSlots", freeSlots);
             resp.setStatus(532);
         } else{
             resp.setStatus(235);
             timeSlotDB.save(timeSlot);
-        }*/
-        ///////////REMOVE
-        resp.setStatus(532);
-        /////////////////
+        }
         return new View();
     }
 
