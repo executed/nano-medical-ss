@@ -11,7 +11,7 @@
     <meta name="description" content="">
     <meta name="author"      content="Sergey Pozhilov (GetTemplate.com)">
 
-    <title>Sign up - Progressus Bootstrap template</title>
+    <title>Sign up</title>
 
     <link rel="shortcut icon" href="${pageContext.request.contextPath}/assets/images/gt_favicon.png">
 
@@ -57,7 +57,7 @@
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <h3 class="thin text-center">Register a new account</h3>
-                        <p class="text-center text-muted">Lorem ipsum dolor sit amet, <a href="${pageContext.request.contextPath}/signin.jsp">Login</a> adipisicing elit. Quo nulla quibusdam cum doloremque incidunt nemo sunt a tenetur omnis odio. </p>
+                        <p class="text-center text-muted">Feel free to <a href="${pageContext.request.contextPath}/signin.jsp">Login</a> in case you forgot you have an account </p>
                         <hr>
                         <%  HashMap<String, String> errors = new HashMap<>();
                             if (request.getAttribute("errors") != null)

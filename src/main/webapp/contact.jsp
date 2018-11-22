@@ -51,7 +51,7 @@
 				</header>
 				
 				<p>
-					We’d love to hear from you. Interested in working together? Fill out the form below with some info about your project and I will get back to you as soon as I can. Please allow a couple days for me to respond.
+					We’d love to hear from you. Interested in working together? Fill out the form below with some info about your project and I will get back to you as soon as I can. Please allow a couple days for us to respond.
 				</p>
 				<br>
 					<form>
@@ -75,7 +75,7 @@
 						<br>
 						<div class="row">
 							<div class="col-sm-6">
-								<label class="checkbox"><input type="checkbox"> Sign up for newsletter</label>
+
 							</div>
 							<div class="col-sm-6 text-right">
 								<input class="btn btn-action" type="submit" value="Send message">
@@ -92,11 +92,11 @@
 				<div class="widget">
 					<h4>Address</h4>
 					<address>
-						2002 Holcombe Boulevard, Houston, TX 77030, USA
+						246 Golovna St., Chernivtsi, 58000, UA
 					</address>
 					<h4>Phone:</h4>
 					<address>
-						(713) 791-1414
+						+38(066)33-840-33
 					</address>
 				</div>
 
@@ -105,10 +105,6 @@
 
 		</div>
 	</div>	<!-- /container -->
-	
-	<section class="container-full top-space">
-		<div id="map"></div>
-	</section>
 
 	<jsp:include page="wrapper/footer.jsp"/>
 		
