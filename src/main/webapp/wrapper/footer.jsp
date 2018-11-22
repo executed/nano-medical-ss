@@ -48,7 +48,6 @@
                         <p class="simplenav">
                             <a href="#">Home</a> |
                             <a href="${pageContext.request.contextPath}/about.jsp">About</a> |
-                            <a href="${pageContext.request.contextPath}/sidebar-right.jsp">Sidebar</a> |
                             <a href="${pageContext.request.contextPath}/contact.jsp">Contact</a> |
                             <b><a href="${pageContext.request.contextPath}/signup.jsp">Sign up</a></b>
                         </p>

@@ -32,7 +32,7 @@
 </head>
 
 <body class="home">
-<jsp:include page="${pageContext.request.contextPath}/wrapper/nav-bar.jsp"/>
+<jsp:include page="wrapper/nav-bar.jsp"/>
 <!-- Header -->
 <header id="head">
     <div class="container">
@@ -42,7 +42,7 @@
                 <p>
                     <input formaction="${pageContext.request.contextPath}/about.jsp" class="btn btn-default btn-lg" role="button" type="submit" name = "More" value="MORE INFO">
                     <% if (session.getAttribute("user") != null) {
-                    %> <input formaction="/nano-medical/<%= (((Role) session.getAttribute("role")) == Role.CLIENT) ? "client-profile" : "doctor-profile"%>" class="btn btn-action btn-lg" role="button" type="submit" name = "Download" value="Profile">  <%
+                    %> <input formaction="${pageContext.request.contextPath}/nano-medical/<%= (((Role) session.getAttribute("role")) == Role.CLIENT) ? "client-profile" : "doctor-profile"%>" class="btn btn-action btn-lg" role="button" type="submit" name = "Download" value="Profile">  <%
                        } else {
                     %> <input formaction="${pageContext.request.contextPath}/signup.jsp" class="btn btn-action btn-lg" role="button" type="submit" name = "Download" value="Register"> <%
                     }%>
@@ -159,7 +159,7 @@
 </section>
 <!-- /social links -->
 
-<jsp:include page="${pageContext.request.contextPath}/wrapper/footer.jsp"/>
+<jsp:include page="wrapper/footer.jsp"/>
 
 <!-- JavaScript libs are placed at the end of the document so the pages load faster -->
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>

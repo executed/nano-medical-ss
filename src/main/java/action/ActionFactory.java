@@ -1,11 +1,14 @@
 package action;
 
+import constant.URL_CONSTANT;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
 import static action.AppointmentAction.REQUEST_TYPE.GET;
 import static action.AppointmentAction.REQUEST_TYPE.POST;
+import static constant.URL_CONSTANT.BASE;
 
 public class ActionFactory {
 
@@ -13,11 +16,11 @@ public class ActionFactory {
 
     static {
         //nothing action
-        actions.put("GET/", new ForwardAction("WEB-INF/views/index.jsp"));
-        actions.put("GET/signin.jsp", new RedirectAction());
-        actions.put("GET/about.jsp", new RedirectAction());
-        actions.put("GET/signup.jsp", new RedirectAction());
-        actions.put("GET/contact.jsp", new RedirectAction());
+        actions.put("GET/", new ForwardAction(BASE + "index.jsp"));
+        actions.put("GET/signin.jsp", new ForwardAction("/signin.jsp"));
+        actions.put("GET/about.jsp", new ForwardAction("/about.jsp"));
+        actions.put("GET/signup.jsp", new ForwardAction("/signup.jsp"));
+        actions.put("GET/contact.jsp", new ForwardAction("/contact.jsp"));
         actions.put("GET/client-profile", new ProfileAction());
         actions.put("GET/doctor-profile", new ProfileAction());
 

@@ -32,7 +32,7 @@
 
 <body>
 <!-- Fixed navbar -->
-<jsp:include page="${pageContext.request.contextPath}/wrapper/nav-bar.jsp"/>
+<jsp:include page="wrapper/nav-bar.jsp"/>
 <!-- /.navbar -->
 
 <header id="head" class="secondary"></header>
@@ -126,7 +126,7 @@
 </div>	<!-- /container -->
 
 
-<jsp:include page="${pageContext.request.contextPath}/wrapper/footer.jsp"/>
+<jsp:include page="wrapper/footer.jsp"/>
 
 
 

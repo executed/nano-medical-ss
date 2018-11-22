@@ -29,30 +29,7 @@
 
 <body>
 	<!-- Fixed navbar -->
-	<div class="navbar navbar-inverse navbar-fixed-top headroom" >
-		<div class="container">
-			<div class="navbar-header">
-				<!-- Button for smallest screens -->
-				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
-				<a class="navbar-brand" href="${pageContext.request.contextPath}/index.jsp"><img src="${pageContext.request.contextPath}/assets/images/logo.png" alt="Progressus HTML5 template"></a>
-			</div>
-			<div class="navbar-collapse collapse">
-				<ul class="nav navbar-nav pull-right">
-					<li><a href="${pageContext.request.contextPath}/index.jsp">Home</a></li>
-					<li class="active"><a href="about.jsp">About</a></li>
-					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown">More Pages <b class="caret"></b></a>
-						<ul class="dropdown-menu">
-							<li><a href="${pageContext.request.contextPath}/sidebar-left.jsp">Left Sidebar</a></li>
-							<li><a href="${pageContext.request.contextPath}/sidebar-right.jsp">Right Sidebar</a></li>
-						</ul>
-					</li>
-					<li><a href="${pageContext.request.contextPath}/contact.jsp">Contact</a></li>
-					<li><a class="btn" href="${pageContext.request.contextPath}/signin.jsp">SIGN IN / SIGN UP</a></li>
-				</ul>
-			</div><!--/.nav-collapse -->
-		</div>
-	</div> 
+	<jsp:include page="wrapper/nav-bar.jsp"/>
 	<!-- /.navbar -->
 
 	<header id="head" class="secondary"></header>
@@ -107,7 +84,7 @@
 	</div>	<!-- /container -->
 	
 
-	<jsp:include page="${pageContext.request.contextPath}/wrapper/footer.jsp"/>
+	<jsp:include page="wrapper/footer.jsp"/>
 
 	<!-- JavaScript libs are placed at the end of the document so the pages load faster -->
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>

@@ -29,7 +29,7 @@
 
 <body>
 	<!-- Fixed navbar -->
-	<jsp:include page="${pageContext.request.contextPath}/wrapper/nav-bar.jsp"/>
+	<jsp:include page="wrapper/nav-bar.jsp"/>
 	<!-- /.navbar -->
 
 	<header id="head" class="secondary"></header>
@@ -93,11 +93,8 @@
 	</div>	<!-- /container -->
 	
 
-	<jsp:include page="${pageContext.request.contextPath}/wrapper/footer.jsp"/>
+	<jsp:include page="wrapper/footer.jsp"/>
 		
-
-
-
 
 	<!-- JavaScript libs are placed at the end of the document so the pages load faster -->
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>

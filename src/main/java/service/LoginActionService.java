@@ -33,7 +33,8 @@ public class LoginActionService {
 
         IUser user = null;
         View view = new View(true);
-        boolean errorStatus = false;//REMOVE
+        boolean errorStatus = false;
+
         if (clientError == null){
             user = clientDbService.getClientById(clientConfigByUsername.getId());
             new ClientBuilder((Client) user).setConfig(clientConfigByUsername);
@@ -48,12 +49,15 @@ public class LoginActionService {
             errorStatus = true;
         }
 
-        view.setRedirected(clientError == null);
+        view.setRedirected(clientError == null || doctorError == null);
         view.putSessionAttribute("user", user);
         view.putSessionAttribute("role",
                                  checkRole(clientConfigByUsername, doctorConfigByUsername));
 
-        view.setPath((!errorStatus) ? BASE : SIGNIN);
+        view.setPath((!errorStatus) ? "/nano-medical/" : "/signin.jsp");
+        if (clientError == null && !errorStatus) view.setPath(BASE + "index.jsp");
+        else if (doctorError == null && !errorStatus) view.setPath(BASE + "index.jsp");
+        else view.setPath("/signin.jsp");
         return view;
     }
 

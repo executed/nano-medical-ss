@@ -142,7 +142,7 @@ public class TimeSlotDao implements IDao{
             PreparedStatement statement = connection.prepareStatement(getQuery("timeslot.delete"));
             statement.setObject(1, id);
             int status = statement.executeUpdate();
-            if (status == 0) LOGGER.info("No TimeSlot instances were affected while deleting");
+            if (status == 0) LOGGER.debug("No TimeSlot instances were affected while deleting");
             else LOGGER.trace("TimeSlot with id {} was succesfully deleted from database", id);
         } catch (SQLException e) {
             LOGGER.info("Something went wrong while deleting TimeSlot with id {}", id, e);

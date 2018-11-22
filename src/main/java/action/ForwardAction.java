@@ -11,7 +11,6 @@ import static utility.ClassNameUtil.getClassName;
 
 public class ForwardAction implements Action{
 
-    private static final Logger LOG = LogManager.getLogger(getClassName());
     private String path;
 
     public ForwardAction(String path){ this.path = path; }
@@ -19,8 +18,7 @@ public class ForwardAction implements Action{
     @Override
     public View execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        View view = new View();
-        view.setForwarded(true);
+        View view = new View(true);
         view.setPath(path);
         return view;
     }

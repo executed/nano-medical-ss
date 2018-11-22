@@ -99,6 +99,8 @@ public class AppointmentAction implements Action{
         DoctorBuilder doctorBuilder = new DoctorBuilder(doctor);
 
         for (TimeSlot slot: timeSlotDB.getByIUserId(doctorId, Doctor.class)){
+            if (timeSlot.getStartTime().isBeforeNow()
+                    || timeSlot.getStartTime().getDayOfYear() != DateTime.now().getDayOfYear()) break;
             doctorBuilder.addTimeSlot(slot);
         }
 

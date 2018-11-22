@@ -1,9 +1,9 @@
 <%@ page import="entity.IUser" %>
-<!-- Fixed navbar -->
+
 <div class="navbar navbar-inverse navbar-fixed-top headroom" >
     <div class="container">
         <div class="navbar-header">
-            <!-- Button for smallest screens -->
+
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
             <a class="navbar-brand" href="${pageContext.request.contextPath}/index.jsp">Nano Medical</a>
         </div>
@@ -16,10 +16,9 @@
                 <% if (((IUser) session.getAttribute("user")) != null) {
                 %> <li><a class="btn" href="${pageContext.request.contextPath}/nano-medical/signout">Sign Out</a></li> <%
             } else {
-            %> <li><a class="btn" href="${pageContext.request.contextPath}/nano-medical/signin.jsp">SIGN IN / SIGN UP</a></li> <%
+            %> <li><a class="btn" href="${pageContext.request.contextPath}/signin.jsp">SIGN IN / SIGN UP</a></li> <%
                 }%>
             </ul>
-        </div><!--/.nav-collapse -->
+        </div>
     </div>
 </div>
-<!-- /.navbar -->->
